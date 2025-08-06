@@ -1,0 +1,11 @@
+.primary-picker.active .primary-picker__dropdown {
+    visibility: hidden;
+    opacity: 0;
+}
+
+@media only screen and (min-width: 768px) {
+    div#mobile-header {
+        display: none;
+    }
+
+}

@@ -1,0 +1,44 @@
+// Reglas de Firestore para el proyecto
+// Copia y pega estas reglas en Firebase Console → Firestore Database → Rules
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Colección de redirección (temporal)
+    match /redireccion/{document} {
+      allow read, write: if true;
+    }
+    
+    // Colección de historial persistente (NUEVA - REQUERIDA)
+    match /datosHistorial/{document} {
+      allow read, write: if true;
+    }
+    
+    // Colección de administradores (si existe)
+    match /admin/{document} {
+      allow read, write: if true;
+    }
+    
+    // Colección de configuración (si existe)
+    match /config/{document} {
+      allow read, write: if true;
+    }
+    
+    // Regla por defecto (denegar todo lo demás)
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+// INSTRUCCIONES:
+// 1. Ve a Firebase Console (https://console.firebase.google.com)
+// 2. Selecciona tu proyecto
+// 3. Ve a Firestore Database
+// 4. Haz clic en "Rules" (Reglas)
+// 5. Reemplaza el contenido con las reglas de arriba
+// 6. Haz clic en "Publish" (Publicar)
+
+// NOTA: Estas reglas permiten acceso completo a las colecciones especificadas.
+// Para producción, considera agregar autenticación y validación más estricta.

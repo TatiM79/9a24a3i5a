@@ -1,0 +1,11 @@
+@media only screen and (max-width: 800px) {
+  #content-left {
+    display: none;
+  }
+  #footer {
+    position: absolute !important;
+    bottom: 0 !important;
+    padding-bottom: 10px !important;
+    margin-bottom: 30px !important;
+}
+}

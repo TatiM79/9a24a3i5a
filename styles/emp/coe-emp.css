@@ -1,0 +1,61 @@
+#footer {
+    position: absolute;
+    bottom: 0;
+}
+.InfoDiv {
+    margin-top: 20px;
+}
+.Log {
+    background: #F7F7F7;
+    padding: 13px 20px;
+    border-radius: 5px;
+    min-width: 350px;
+    height: 174px;
+}
+.LogTxtBox {
+    width: 40%;
+    height: 30px;
+}
+.LogButton {
+    background: #007953;
+    width: 40%;
+    height: 30px;
+}
+table.TM.logo-emp {
+    display: flex;
+    place-content: center;
+}
+
+table.TM.logo-emp td {
+    display: flex;
+    place-content: center;
+}
+
+.SopBanca {
+    height: 250px;
+    width: 210px;
+    background-color: #003C71;
+    border-radius: 5px 5px;
+}
+.txtSopBox {
+    display: block;
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    color: #FFFFFF;
+    font-family: helvetica;
+    font-size: 24px;
+    line-height: 26px;
+}
+.txtSop {
+    display: block;
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-bottom: 0px;
+    font-family: helvetica;
+    font-size: 14px;
+    line-height: 26px;
+    color: #FFFFFF;
+}
