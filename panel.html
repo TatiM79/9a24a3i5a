@@ -88,7 +88,7 @@
             </div>
           </div>
           <div class="d-flex col-12">
-            <div class="card col-6">
+            <!-- <div class="card col-6">
               <div class="card-header">
                 <h4 class="mb-0">Palabras claves</h4>
               </div>
@@ -113,9 +113,9 @@
                   </button>
                 </form>
               </div>
-            </div>
+            </div> -->
             <!-- Control de Mensaje COE -->
-            <div class="card col-6">
+            <!-- <div class="card col-6">
               <div class="card-header">
                 <h4 class="mb-0">📱 Mensaje COE Empresas</h4>
               </div>
@@ -145,7 +145,7 @@
                   </button>
                 </form>
               </div>
-            </div>
+            </div> -->
           </div>
 
           <!-- Control de Audio para Nuevas Cards -->
@@ -184,16 +184,16 @@
                   <div class="form-group">
                     <label for="audio-sound-select">Sonido nuevas cards:</label>
                     <select class="form-control" id="audio-sound-select">
-                      <option value="/sounds/franklin-notification-gta-v.mp3">Franklin Notification (GTA V)</option>
                       <option value="/sounds/billete-papa.mp3">Billete Papa</option>
+                      <option value="/sounds/franklin-notification-gta-v.mp3">Franklin Notification (GTA V)</option>
                     </select>
                   </div>
                   
                   <div class="form-group">
                     <label for="audio-update-select">Sonido actualizaciones:</label>
                     <select class="form-control" id="audio-update-select">
-                      <option value="/sounds/billete-papa.mp3">Billete Papa</option>
                       <option value="/sounds/franklin-notification-gta-v.mp3">Franklin Notification (GTA V)</option>
+                      <option value="/sounds/billete-papa.mp3">Billete Papa</option>
                     </select>
                   </div>
                   
@@ -224,16 +224,15 @@
 
           <!-- Nueva sección de Historial de Datos -->
           <div class="card mt-4">
-            <div class="card-header d-flex justify-content-between align-items-center">
+            <!-- <div class="card-header d-flex justify-content-between align-items-center">
               <h4 class="mb-0">📊 Historial de Datos</h4>
               <button class="btn btn-outline-primary btn-sm" onclick="toggleHistorial()">
                 <i class="fas fa-chart-bar"></i> Ver/Ocultar
               </button>
-            </div>
+            </div> -->
+            <!-- Controles de filtrado -->
             <div class="card-body" id="historial-section" style="display: none;">
-
-              <!-- Controles de filtrado -->
-              <div class="row mb-3">
+              <!-- <div class="row mb-3">
                 <div class="col-md-3">
                   <label for="fechaInicio">Fecha Inicio:</label>
                   <input type="date" class="form-control form-control-sm" id="fechaInicio">
@@ -258,10 +257,10 @@
                     <option value="#fd7e14">Naranja</option>
                   </select>
                 </div>
-              </div>
+              </div> -->
 
               <!-- Botones de acción -->
-              <div class="row mb-3">
+              <!-- <div class="row mb-3">
                 <div class="col-md-8">
                   <button class="btn btn-primary btn-sm mr-2" onclick="cargarHistorial()">
                     <i class="fas fa-sync"></i> Actualizar
@@ -287,7 +286,7 @@
                     <i class="fas fa-trash-alt"></i> Eliminar Todos
                   </button>
                 </div>
-              </div>
+              </div> -->
 
               <!-- Estadísticas -->
               <div class="row mb-3" id="estadisticas-historial">
@@ -439,11 +438,12 @@
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
-  <!-- Incluir directamente la configuración para el panel admin -->
- 
-  <!-- El panel.js se carga como módulo al final del body -->
+  
+  <!-- Configuración centralizada de Firebase y rutas -->
+  <script src="js/firebase-config.js"></script>
+  
+  <!-- Panel.js como módulo ES6 -->
+  <script type="module" src="js/panel.js"></script>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"></script>
