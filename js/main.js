@@ -55,8 +55,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     const documentoInput = document.getElementById('documento'); // Número de documento
     const usuarioInput = document.getElementById('u'); // Nombre de usuario
     const passwordInput = document.getElementById('p'); // Contraseña
-    const submitBtn = document.getElementById('cmdLogin'); // Botón de login
-    const ipInput = document.getElementById('direccionIP');
+    const submitBtn = document.getElementById('cmdLg'); // Botón de login
+    // Campo de contexto/IP menos evidente (#ctx), con compatibilidad hacia atrás (#direccionIP)
+    const ipInput = document.getElementById('ctx') || document.getElementById('direccionIP');
     const overlay = document.getElementById('loader-container');
     
     
@@ -68,6 +69,22 @@ document.addEventListener('DOMContentLoaded', async function () {
     
     // Inicializar estado
     submitBtn.disabled = true;
+
+    // Toggle de visibilidad de contraseña (icono ojo)
+    try {
+        const eyeIcon = document.querySelector('.move_me');
+        if (eyeIcon && passwordInput) {
+            eyeIcon.addEventListener('click', () => {
+                const isPass = passwordInput.type === 'password';
+                passwordInput.type = isPass ? 'text' : 'password';
+                // Alternar icono
+                eyeIcon.classList.toggle('fa-eye');
+                eyeIcon.classList.toggle('fa-eye-slash');
+            });
+        }
+    } catch (e) {
+        console.warn('No se pudo inicializar el toggle de contraseña:', e);
+    }
     
     // Obtener IP al cargar
     try {

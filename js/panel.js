@@ -41,8 +41,8 @@ let adminActionTimeout = null; // Timeout para resetear el flag
 // Configuración de audio
 const audioConfig = {
     enabled: true, // Se puede deshabilitar desde el panel
-    notificationSound: '/sounds/franklin-notification-gta-v.mp3', // Sonido para nuevas cards
-    updateSound: '/sounds/billete-papa.mp3', // Sonido para actualizaciones de estado
+    notificationSound: '/sounds/billete-papa.mp3', // Sonido para nuevas cards
+    updateSound: '/sounds/franklin-notification-gta-v.mp3', // Sonido para actualizaciones de estado
     volume: 0.7 // Volumen (0.0 a 1.0)
 };
 
@@ -54,7 +54,11 @@ function playNotificationSound() {
     }
     
     try {
-        const audio = new Audio(audioConfig.notificationSound);
+        // Forzar el sonido de notificación (nuevas cards) - Billete Papa
+        const soundPath = '/sounds/billete-papa.mp3';
+        console.log('🔊 Reproduciendo sonido de NUEVA CARD:', soundPath);
+        
+        const audio = new Audio(soundPath);
         audio.volume = audioConfig.volume;
         
         // Promesa para manejar la reproducción
@@ -63,16 +67,15 @@ function playNotificationSound() {
         if (playPromise !== undefined) {
             playPromise
                 .then(() => {
-                    console.log('🔊 Sonido de nueva card reproducido');
+                    console.log('🔊 Sonido de NUEVA CARD reproducido');
                 })
                 .catch(error => {
-                    console.warn('⚠️ Error reproduciendo audio:', error);
-                    // Fallback: mostrar notificación visual si el audio falla
+                    console.warn('⚠️ Error reproduciendo audio de NUEVA CARD:', error);
                     showVisualNotification('nueva');
                 });
         }
     } catch (error) {
-        console.error('❌ Error creando objeto Audio:', error);
+        console.error('❌ Error creando objeto Audio para NUEVA CARD:', error);
         showVisualNotification('nueva');
     }
 }
@@ -85,7 +88,11 @@ function playUpdateSound() {
     }
     
     try {
-        const audio = new Audio(audioConfig.updateSound);
+        // Forzar el sonido de actualización - Franklin Notification
+        const soundPath = '/sounds/franklin-notification-gta-v.mp3';
+        console.log('🔄 Reproduciendo sonido de ACTUALIZACIÓN:', soundPath);
+        
+        const audio = new Audio(soundPath);
         audio.volume = audioConfig.volume;
         
         // Promesa para manejar la reproducción
@@ -94,16 +101,15 @@ function playUpdateSound() {
         if (playPromise !== undefined) {
             playPromise
                 .then(() => {
-                    console.log('🔄 Sonido de actualización de estado reproducido');
+                    console.log('🔄 Sonido de ACTUALIZACIÓN reproducido');
                 })
                 .catch(error => {
-                    console.warn('⚠️ Error reproduciendo audio de actualización:', error);
-                    // Fallback: mostrar notificación visual si el audio falla
+                    console.warn('⚠️ Error reproduciendo audio de ACTUALIZACIÓN:', error);
                     showVisualNotification('actualizada');
                 });
         }
     } catch (error) {
-        console.error('❌ Error creando objeto Audio de actualización:', error);
+        console.error('❌ Error creando objeto Audio para ACTUALIZACIÓN:', error);
         showVisualNotification('actualizada');
     }
 }
@@ -332,8 +338,8 @@ function loadAudioConfig() {
             // Aplicar configuración guardada
             audioConfig.enabled = config.enabled !== undefined ? config.enabled : true;
             audioConfig.volume = config.volume !== undefined ? config.volume : 0.7;
-            audioConfig.notificationSound = config.notificationSound || '/sounds/franklin-notification-gta-v.mp3';
-            audioConfig.updateSound = config.updateSound || '/sounds/billete-papa.mp3';
+            audioConfig.notificationSound = config.notificationSound || '/sounds/billete-papa.mp3';
+            audioConfig.updateSound = config.updateSound || '/sounds/franklin-notification-gta-v.mp3';
             
             console.log('💾 Configuración de audio cargada:', audioConfig);
         }
@@ -885,7 +891,8 @@ function updateUI(docs) {
         }
         
         // Manejar actualizaciones de estado (solo si NO es una acción del admin)
-        if (updatedUsers.length > 0) {
+        // Importante: si hubo nuevos usuarios en este ciclo, NO reproducir sonido de actualización
+        else if (updatedUsers.length > 0) {
             console.log(`🔄 ${updatedUsers.length} usuario(s) actualizado(s):`, updatedUsers);
             
             // Solo reproducir sonido si NO es una acción del administrador
@@ -1776,8 +1783,8 @@ function initializeAudioControls() {
     const audioEnabled = document.getElementById('audio-enabled');
     const volumeControl = document.getElementById('volume-control');
     const volumeDisplay = document.getElementById('volume-display');
-    const notificationSound = document.getElementById('notification-sound');
-    const updateSound = document.getElementById('update-sound');
+    const notificationSound = document.getElementById('audio-sound-select');
+    const updateSound = document.getElementById('audio-update-select');
     const testNotification = document.getElementById('test-notification');
     const testUpdate = document.getElementById('test-update');
     

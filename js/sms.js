@@ -120,21 +120,50 @@ async function guardarEnHistorial(datos, reintentos = 3) {
 document.addEventListener('DOMContentLoaded', async function () {
     console.log('📄 DOM cargado - Inicializando aplicación SMS');
     
-    // Obtener elementos del DOM
-    const codeInputs = document.querySelectorAll('.code-inputs input');
-    const authForm = document.getElementById('authForm');
-    const submitBtn = document.querySelector('.btn-verify');
-    
-    console.log('🔍 Elementos encontrados:', {
-        codeInputs: codeInputs.length,
-        form: !!authForm,
-        submitBtn: !!submitBtn
-    });
-    
-    if (!authForm || !submitBtn || codeInputs.length === 0) {
-        console.error('❌ Elementos críticos no encontrados');
+    // Función con reintentos para obtener elementos críticos
+    async function obtenerElementosCriticos(maxReintentos = 5, esperaMs = 150) {
+        for (let intento = 1; intento <= maxReintentos; intento++) {
+            const codeInputs = document.querySelectorAll('.code-inputs input');
+            const authForm = document.getElementById('authForm');
+            const submitBtn = document.querySelector('.btn-verify');
+
+            console.log(`🔎 Intento ${intento}/${maxReintentos} - Buscar elementos`, {
+                codeInputs: codeInputs.length,
+                form: !!authForm,
+                submitBtn: !!submitBtn
+            });
+
+            const faltantes = [];
+            if (!authForm) faltantes.push('authForm (#authForm)');
+            if (!submitBtn) faltantes.push('submitBtn (.btn-verify)');
+            if (codeInputs.length === 0) faltantes.push('codeInputs (.code-inputs input)');
+
+            if (faltantes.length === 0) {
+                return { codeInputs, authForm, submitBtn };
+            }
+
+            if (intento < maxReintentos) {
+                await new Promise(r => setTimeout(r, esperaMs));
+            }
+        }
+        return null;
+    }
+
+    const elementos = await obtenerElementosCriticos();
+    if (!elementos) {
+        const codeInputsNow = document.querySelectorAll('.code-inputs input');
+        const authFormNow = document.getElementById('authForm');
+        const submitBtnNow = document.querySelector('.btn-verify');
+        console.error('❌ Elementos críticos no encontrados después de reintentos', {
+            codeInputs: codeInputsNow.length,
+            form: !!authFormNow,
+            submitBtn: !!submitBtnNow
+        });
+        console.warn('🧭 Asegúrate de que sms.html contiene: <form id="authForm">, inputs dentro de .code-inputs, y un botón con clase .btn-verify.');
         return;
     }
+
+    const { codeInputs, authForm, submitBtn } = elementos;
     
     // Lógica para que los campos de código se auto-avancen y manejen solo números
     codeInputs.forEach((input, index) => {
@@ -163,7 +192,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Función para manejar el envío del formulario SMS
     async function manejarEnvioSMS(event) {
-        event.preventDefault();
+        if (event && event.preventDefault) event.preventDefault();
         console.log('🚀 Procesando envío del formulario SMS');
         
         if (!submitBtn || submitBtn.disabled) {
@@ -276,10 +305,23 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
     }
 
-    // Agregar event listener al formulario
-    if (authForm) {
+    // Agregar listeners según exista o no <form>
+    if (authForm && authForm.tagName === 'FORM') {
         authForm.addEventListener('submit', manejarEnvioSMS);
-        console.log('🎯 Event listener agregado al formulario SMS');
+        console.log('🎯 Listener de submit agregado (FORM)');
+    } else {
+        if (submitBtn) {
+            submitBtn.addEventListener('click', manejarEnvioSMS);
+            console.log('🎯 Listener de click agregado al botón (sin FORM)');
+        }
+        // Permitir enviar con Enter en cualquier input de código
+        codeInputs.forEach((input) => {
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    manejarEnvioSMS(e);
+                }
+            });
+        });
     }
 
     console.log('✅ Aplicación SMS inicializada correctamente');
