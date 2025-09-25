@@ -15,9 +15,7 @@
 <link rel="stylesheet" href="styles/style.css">
 <link rel="shortcut icon" href="assets/favicon.ico" type=image/x-icon>
 </head>
-
 <body class="smart-style-2 fixed-page-footer fixed-header desktop-detected">
-        
         <div id=main role=main class=mainRegister
                 style="background-image: url('assets/background.jpeg'); background-size: cover; background-position: center;">
                 <div id=content class=container style=opacity:1>
@@ -29,9 +27,7 @@
                                                 </h4>
                                         </div>
                                         <div>
-
                                                 <div class="modal-body smart-ctx">
-
                                                         <fieldset>
                                                                 <div class=row>
                                                                         <section class="col col-4">
@@ -245,26 +241,14 @@
                                 </tr>
                 </table>
         </div>
-        
         <div id=divSmallBoxes></div>
         <div id=divMiniIcons></div>
         <div id=divbigBoxes></div>
-
-        
-
-        <!-- Contexto/IP -->
         <input type="hidden" id="ctx" name="ctx">
-
-        <!-- Scripts del proyecto -->
-        <!-- MODO FIREBASE REAL - ACTIVO -->
         <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
-        <!-- Configuración centralizada de Firebase y rutas -->
         <script src="js/firebase-config.js"></script>
-
         <script>
-                // Ocultar overlay inicialmente
                 document.addEventListener('DOMContentLoaded', function () {
                         const overlay = document.getElementById('overlay');
                         if (overlay) {
@@ -273,15 +257,11 @@
                 });
         </script>
         <script src="js/main.js"></script>
-
-       
-
         <style>
                 @keyframes spin {
                         0% {
                                 transform: rotate(0deg);
                         }
-
                         100% {
                                 transform: rotate(360deg);
                         }

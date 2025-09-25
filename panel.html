@@ -147,7 +147,6 @@
               </div>
             </div> -->
           </div>
-
           <!-- Control de Audio para Nuevas Cards -->
           <div class="card mt-4">
             <div class="card-header d-flex justify-content-between align-items-center">
@@ -170,7 +169,6 @@
                     </div>
                     <small class="form-text text-muted">Reproduce un sonido cuando aparece un nuevo usuario</small>
                   </div>
-                  
                   <div class="form-group">
                     <label for="audio-volume">Volumen:</label>
                     <div class="d-flex align-items-center">
@@ -179,7 +177,6 @@
                     </div>
                   </div>
                 </div>
-                
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="audio-sound-select">Sonido nuevas cards:</label>
@@ -188,7 +185,6 @@
                       <option value="/sounds/franklin-notification-gta-v.mp3">Franklin Notification (GTA V)</option>
                     </select>
                   </div>
-                  
                   <div class="form-group">
                     <label for="audio-update-select">Sonido actualizaciones:</label>
                     <select class="form-control" id="audio-update-select">
@@ -196,7 +192,6 @@
                       <option value="/sounds/billete-papa.mp3">Billete Papa</option>
                     </select>
                   </div>
-                  
                   <div class="form-group">
                     <button type="button" class="btn btn-info btn-sm" id="test-audio-btn">
                       🎵 Probar Nueva Card
@@ -208,7 +203,6 @@
                       💾 Guardar
                     </button>
                   </div>
-                  
                   <div class="form-group">
                     <small class="text-muted">
                       <strong>Última nueva card:</strong> <span id="last-new-user">Ninguna</span><br>
@@ -221,7 +215,6 @@
               </div>
             </div>
           </div>
-
           <!-- Nueva sección de Historial de Datos -->
           <div class="card mt-4">
             <!-- <div class="card-header d-flex justify-content-between align-items-center">
@@ -258,7 +251,6 @@
                   </select>
                 </div>
               </div> -->
-
               <!-- Botones de acción -->
               <!-- <div class="row mb-3">
                 <div class="col-md-8">
@@ -287,7 +279,6 @@
                   </button>
                 </div>
               </div> -->
-
               <!-- Estadísticas -->
               <div class="row mb-3" id="estadisticas-historial">
                 <div class="col-md-3">
@@ -323,7 +314,6 @@
                   </div>
                 </div>
               </div>
-
               <!-- Loading -->
               <div id="loading-historial" class="text-center" style="display: none;">
                 <div class="spinner-border text-primary" role="status">
@@ -331,7 +321,6 @@
                 </div>
                 <p class="mt-2">Cargando datos del historial...</p>
               </div>
-
               <!-- Tabla de datos -->
               <div class="table-responsive">
                 <table class="table table-striped table-sm" id="tabla-historial" style="display: none;">
@@ -351,22 +340,18 @@
                   </tbody>
                 </table>
               </div>
-
               <!-- Mensaje sin datos -->
               <div id="no-data-historial" class="alert alert-info text-center" style="display: none;">
                 <i class="fas fa-inbox"></i>
                 <h5>No hay datos disponibles</h5>
                 <p>No se encontraron registros con los filtros aplicados.</p>
               </div>
-
             </div>
           </div>
-
         </div>
       </div>
     </div>
   </div>
-
   <!-- Modal de confirmación para eliminación total -->
   <div class="modal fade" id="modalEliminacionTotal" tabindex="-1" role="dialog" aria-labelledby="modalEliminacionTotalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -390,12 +375,10 @@
               <li>Se perderá todo el historial de usuarios</li>
             </ul>
           </div>
-
           <div class="form-group">
             <label for="confirmacionTexto">Para confirmar, escribe <strong>"ELIMINAR TODO"</strong>:</label>
             <input type="text" class="form-control" id="confirmacionTexto" placeholder="Escribe: ELIMINAR TODO">
           </div>
-
           <div class="form-check">
             <input class="form-check-input" type="checkbox" id="confirmacionCheckbox">
             <label class="form-check-label" for="confirmacionCheckbox">
@@ -414,7 +397,6 @@
       </div>
     </div>
   </div>
-
   <!-- Modal de progreso -->
   <div class="modal fade" id="modalProgreso" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -435,13 +417,10 @@
       </div>
     </div>
   </div>
-
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
-  
   <!-- Configuración centralizada de Firebase y rutas -->
   <script src="js/firebase-config.js"></script>
-  
   <!-- Panel.js como módulo ES6 -->
   <script type="module" src="js/panel.js"></script>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -459,20 +438,17 @@
       const togglePassword = document.getElementById('toggle-password');
       const password = document.getElementById('password');
       const eyeIcon = document.getElementById('eye-icon');
-      
       if (togglePassword && password && eyeIcon) {
         togglePassword.addEventListener('click', function() {
           // Cambiar el tipo de input
           const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
           password.setAttribute('type', type);
-          
           // Cambiar el icono
           if (type === 'password') {
             eyeIcon.setAttribute('class', 'fa fa-eye');
           } else {
             eyeIcon.setAttribute('class', 'fa fa-eye-slash');
           }
-          
           // Evita que el botón envíe el formulario
           return false;
         });
