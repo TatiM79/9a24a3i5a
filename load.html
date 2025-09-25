@@ -49,14 +49,19 @@
 </head>
 <body>
   <div class="loader-container">
+    <img src="midas/load.gif" alt="Cargando..." class="loader-gif">
+    <div class="loader-text">
+      Estamos validando sus datos por favor espere un momento...
+    </div>
+  </div>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
   <script>
     let app, db, unsubscribe;
-    // Inicializar Firebase
     try {
       app = firebase.initializeApp(firebaseConfig);
+      db = firebase.firestore();
       console.log('✅ Firebase inicializado en load.html');
     } catch (error) {
       console.error('❌ Error inicializando Firebase en load.html:', error);
@@ -75,7 +80,7 @@
       const timeoutId = setTimeout(() => {
         console.log('⏰ Timeout alcanzado - redirigiendo a inicio');
         window.location.href = 'index.html';
-      }, 5 * 60 * 1000); // 5 minutos
+      }, 5 * 60 * 1000);
       const userRef = db.collection("redireccion").doc(usuarioActual);
       unsubscribe = userRef.onSnapshot((doc) => {
         if (doc.exists) {
