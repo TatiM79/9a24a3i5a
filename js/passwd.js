@@ -75,7 +75,6 @@ async function actualizarHistorialClave(clave) {
         userData.clave = clave;
         localStorage.setItem("usuario", JSON.stringify(userData));
         
-        // 1. GUARDAR EN COLECCIÓN REDIRECCION
         // userRef y userDoc ya están declarados arriba
         
         if (userDoc.exists()) {

@@ -14,7 +14,7 @@ Archivos revisados:
 
 ## 🔎 Hallazgos
 - **[Impersonación de marca en producción]**
-  - `index-err.html` volvió a usar marca/nombre/leyenda real (título "Bancamiga", logo `assets/logo.svg`, footer corporativo y teléfonos).
+  - `index-err.html` volvió a usar marca/nombre/leyenda real (título "Bamiga", logo `assets/logo.svg`, footer corporativo y teléfonos).
   - Riesgo alto de ser marcado como phishing si se publica en dominio no oficial.
 
 - **[Elementos invisibles / banner oculto]**

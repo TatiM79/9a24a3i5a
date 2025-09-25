@@ -215,7 +215,7 @@ label {
     max-width: 100%
 }
 
-.form-control {
+/* .form-control {
     font-size: 13px;
     background-color: #fff;
     background-image: none;
@@ -234,7 +234,7 @@ label {
 
 .form-control::-webkit-input-placeholder {
     color: #999
-}
+} */
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {}
 
@@ -5352,11 +5352,11 @@ textarea:focus {
     box-shadow: none !important
 }
 
-.form-control {
+/* .form-control {
     border-radius: 0 !important;
     -webkit-border-radius: 0 !important;
     -moz-border-radius: 0 !important
-}
+} */
 
 #content {
     padding: 10px 14px;
@@ -5375,11 +5375,11 @@ textarea:focus {
     position: relative
 }
 
-.form-control {
+/* .form-control {
     box-shadow: none !important;
     -webkit-box-shadow: none !important;
     -moz-box-shadow: none !important
-}
+} */
 
 fieldset {
     position: relative
